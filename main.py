@@ -1,9 +1,11 @@
 import argparse
+from bs4 import BeautifulSoup
+import requests
 
 def check_threshold(value):
     """
-        Check that the user inputted argument for the extraction confidence threshold
-        is a float between 0 and 1.
+    Check that the user inputted argument for the extraction confidence threshold
+    is a float between 0 and 1.
     """
     try:
         f = float(value)
@@ -16,8 +18,8 @@ def check_threshold(value):
 
 def check_positive_int(value):
     """
-        Check that the user inputted argument for the number of tuples to extract
-        is an integer greater than 0.
+    Check that the user inputted argument for the number of tuples to extract
+    is an integer greater than 0.
     """
     try:
         i = int(value)
@@ -26,6 +28,41 @@ def check_positive_int(value):
     if i <= 0:
         raise argparse.ArgumentTypeError("Value must be greater than 0.")
     return i
+
+
+def process_url(url, processed_urls, nlp, max_length=10000):
+    """
+    Process a single URL:
+    - Skip if already processed.
+    - Retrieve the webpage. Skip if there's an error.
+    - Extract plain text using BeautifulSoup.
+    - Truncate text to max_length if necessary.
+    - Use spaCy to split into sentences and extract named entities.
+    """
+    if url in processed_urls:
+        # URL already processed; skip it
+        return None
+
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status() 
+    except Exception as e:
+        print(f"Skipping URL {url} due to retrieval error: {e}")
+        return None
+
+    # Extract plain text using BeautifulSoup
+    soup = BeautifulSoup(response.text, "html.parser")
+    raw_text = soup.get_text(separator=" ", strip=True)
+
+    # Truncate text if it is longer than max_length characters
+    if len(raw_text) > max_length:
+        raw_text = raw_text[:max_length]
+
+    # TODO: Use spaCy to split the text into sentences and extract named entities
+    # Use the provided scripts for this?
+
+    # Mark the URL as processed to avoid duplicate work in future iterations
+    processed_urls.add(url)
 
 
 def main():
@@ -91,6 +128,9 @@ def main():
     print(f"Threshold: {t}")
     print(f"Seed Query: {q}")
     print(f"Number of Tuples: {k}")
+
+    # Keep track of URLs that have been processed in previous iterations
+    processed_urls = set()
 
 
 if __name__ == '__main__':
