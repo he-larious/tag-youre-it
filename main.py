@@ -1,6 +1,9 @@
 import argparse
 from bs4 import BeautifulSoup
 import requests
+import spacy
+from spacy_help_functions import get_entities, create_entity_pairs
+from gemini import extract_relations_gemini
 
 def check_threshold(value):
     """
@@ -30,43 +33,7 @@ def check_positive_int(value):
     return i
 
 
-def process_url(url, processed_urls, nlp, max_length=10000):
-    """
-    Process a single URL:
-    - Skip if already processed.
-    - Retrieve the webpage. Skip if there's an error.
-    - Extract plain text using BeautifulSoup.
-    - Truncate text to max_length if necessary.
-    - Use spaCy to split into sentences and extract named entities.
-    """
-    if url in processed_urls:
-        # URL already processed; skip it
-        return None
-
-    try:
-        response = requests.get(url, timeout=10)
-        response.raise_for_status() 
-    except Exception as e:
-        print(f"Skipping URL {url} due to retrieval error: {e}")
-        return None
-
-    # Extract plain text using BeautifulSoup
-    soup = BeautifulSoup(response.text, "html.parser")
-    raw_text = soup.get_text(separator=" ", strip=True)
-
-    # Truncate text if it is longer than max_length characters
-    if len(raw_text) > max_length:
-        raw_text = raw_text[:max_length]
-
-    # TODO: Use spaCy to split the text into sentences and extract named entities
-    # Use the provided scripts for this?
-
-    # Mark the URL as processed to avoid duplicate work in future iterations
-    processed_urls.add(url)
-
-
-def main():
-    # Parse all user input from args
+def validate_args():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("google_search_api_key", type=str, help="Google Custom Search Engine JSON API Key")
@@ -100,6 +67,54 @@ def main():
     parser.add_argument("k", type=check_positive_int, help="Number of tuples to request (must be > 0)")
 
     args = parser.parse_args()
+    return args
+
+
+def extract_plain_text(url, max_length=10000):
+    """
+    Retrieve the webpage. Skip if there's an error. Extract plain text using BeautifulSoup.
+    Truncate text to max_length if necessary.
+    """
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status() 
+    except Exception as e:
+        print(f"Skipping URL {url} due to retrieval error: {e}")
+        return None
+
+    # Parse the HTML file
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    # Remove unwanted tags (<script> and <style>)
+    for tag in soup(["script", "style"]):
+        tag.decompose()
+
+    # Extract plain text from the HTML
+    raw_text = soup.get_text(separator=" ", strip=True)
+
+    # Truncate text if it's longer than max_length characters
+    if len(raw_text) > max_length:
+        raw_text = raw_text[:max_length]
+
+    return raw_text
+
+
+def extract_named_entities(raw_text):
+    # TODO: Look at the example_relations.py file to see how to do this
+    pass
+
+
+def extract_relations(args, text):
+    if args.method == 'spanbert':
+        # Call some helper function
+        pass
+    elif args.method == 'gemini':
+        extract_relations_gemini(args.google_gemini_api_key)
+
+
+def main():
+    # Parse and validate all user input from args
+    args = validate_args()
 
     # Map relation numbers to names for clarity
     relation_map = {
@@ -109,25 +124,19 @@ def main():
         4: "Top_Member_Employees"
     }
 
-    google_search_api_key = args.google_search_api_key
-    google_engine_id = args.google_engine_id
-    google_gemini_api_key = args.google_gemini_api_key
-    extraction_method = args.extraction_method
-    r = args.r
-    t = args.t
-    q = args.q 
-    k = args.k
+    # Print to terminal
+    print("Parameters:")
+    print(f"Google Search API Key: {args.google_search_api_key}")
+    print(f"Google Engine ID: {args.google_engine_id}")
+    print(f"Google Gemini API Key: {args.google_gemini_api_key}")
+    print(f"Extraction Method: {args.extraction_method}")
+    print(f"Relation: {args.r} ({relation_map[args.r]})")
+    print(f"Threshold: {args.t}")
+    print(f"Seed Query: {args.q}")
+    print(f"Number of Tuples: {args.k}")
 
-    # NOTE: we can delete this later I'm just making sure we parsed the args correctly
-    print("Parsed Arguments:")
-    print(f"Google Search API Key: {google_search_api_key}")
-    print(f"Google Engine ID: {google_engine_id}")
-    print(f"Google Gemini API Key: {google_gemini_api_key}")
-    print(f"Extraction Method: {extraction_method}")
-    print(f"Relation: {r} ({relation_map[r]})")
-    print(f"Threshold: {t}")
-    print(f"Seed Query: {q}")
-    print(f"Number of Tuples: {k}")
+    # NOTE: Testing things for now, can delete later
+    text = extract_plain_text('https://www.cs.columbia.edu/~gravano/cs6111/Proj2/')
 
     # Keep track of URLs that have been processed in previous iterations
     processed_urls = set()
