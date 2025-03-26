@@ -157,10 +157,10 @@ def extract_named_entities(raw_text, args):
 
 
 def extract_relations(args, sentence_candidate_pairs):
-    if args.method == 'spanbert':
+    if args.extraction_method == 'spanbert':
         # Call some helper function
         pass
-    elif args.method == 'gemini':
+    elif args.extraction_method == 'gemini':
         # Get plain text sentences to feed into gemini
         sentences = []
 
