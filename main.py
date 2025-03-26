@@ -1,8 +1,8 @@
 import argparse
 from bs4 import BeautifulSoup
 import requests
-# import spacy
-# from spacy_help_functions import get_entities, create_entity_pairs
+import spacy
+from spacy_help_functions import get_entities, create_entity_pairs
 from gemini import extract_relations_gemini
 
 # Map relation numbers to names for clarity
