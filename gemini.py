@@ -20,7 +20,7 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
 
 
 def extract_relations_gemini(gemini_api_key, target_relation, sentences):
-    genai.configure(gemini_api_key)
+    genai.configure(api_key=gemini_api_key)
 
     relation_requirements = {
         "Schools_Attended": {
@@ -59,7 +59,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
         Now, given the following sentence, extract all instances of the '{relation}' relationship. 
         In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
         Return your answer as a list of lists, where each inner list is formatted as ["Subject", "{relation}", "Object"] and all elements are strings.
-        If no relation is found, return an empty list.
+        If no relation is found, only return an empty list and nothing else.
         Sentence: {sentence}
         """.format(
             relation=target_relation,
