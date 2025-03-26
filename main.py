@@ -150,17 +150,24 @@ def extract_named_entities(raw_text, args):
             if pair2["subj"][1] == requirement["subj"] and pair2["obj"][1] in requirement["obj"]:
                 candidate_pairs.append(pair2)
         
-        sentence_candidate_pairs.append((sentence, candidate_pairs))
+        if len(candidate_pairs) > 0:
+            sentence_candidate_pairs.append((sentence, candidate_pairs))
     
     return sentence_candidate_pairs
 
 
-def extract_relations(args, text):
+def extract_relations(args, sentence_candidate_pairs):
     if args.method == 'spanbert':
         # Call some helper function
         pass
     elif args.method == 'gemini':
-        extract_relations_gemini(args.google_gemini_api_key)
+        # Get plain text sentences to feed into gemini
+        sentences = []
+
+        for sentence, candidate_pairs in sentence_candidate_pairs:
+            sentences.append(sentence)
+
+        extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
 
 
 def main():
@@ -180,9 +187,8 @@ def main():
 
     # NOTE: Testing things for now, can delete later
     text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
-    print(text)
-    candidate_pairs = extract_named_entities(text, args)
-    print(candidate_pairs)
+    sentence_candidate_pairs = extract_named_entities(text, args)
+    extract_relations(args, sentence_candidate_pairs)
 
     # Keep track of URLs that have been processed in previous iterations
     processed_urls = set()

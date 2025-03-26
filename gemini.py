@@ -19,11 +19,57 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
     return response.text.strip() if response.text else "No response received"
 
 
-def extract_relations_gemini(gemini_api_key):
+def extract_relations_gemini(gemini_api_key, target_relation, sentences):
     genai.configure(gemini_api_key)
 
-    prompt_text = '''
-    
-    '''
+    relation_requirements = {
+        "Schools_Attended": {
+            "subj": "PERSON", 
+            "obj": "ORGANIZATION",
+            "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
+            "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University."
+        },
+        "Work_For": {
+            "subj": "PERSON", 
+            "obj": "ORGANIZATION",
+            "output": '["Alec Radford", "Work_For", "OpenAI"]',
+            "sentence": "Alec Radford, an experienced researcher, recently joined OpenAI as a lead scientist."
+        },
+        "Live_In": {
+            "subj": "PERSON", 
+            "obj": "LOCATION or CITY or STATE_OR_PROVINCE or COUNTRY",
+            "output": '["Mariah Carey", "Live_In", "New York City"]',
+            "sentence": "Mariah Carey, a celebrated singer, lives in New York City."
+        },
+        "Top_Member_Employees": {
+            "subj": "ORGANIZATION", 
+            "obj": "PERSON",
+            "output": '["Nvidia", "Top_Member_Employees", "Jensen Huang"]',
+            "sentence": "Nvidia, a leading tech company, counts Jensen Huang among its top executives."
+        }
+    }
 
-    response_text = get_gemini_completion(prompt_text)
+
+    for sentence in sentences:
+        prompt_text = """
+        Below is an example of relation extraction for the '{relation}' relationship:
+        Example Output: {relation_output}
+        Example Sentence: {relation_sentence}
+            
+        Now, given the following sentence, extract all instances of the '{relation}' relationship. 
+        In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
+        Return your answer as a list of lists, where each inner list is formatted as ["Subject", "{relation}", "Object"] and all elements are strings.
+        If no relation is found, return an empty list.
+        Sentence: {sentence}
+        """.format(
+            relation=target_relation,
+            relation_output=relation_requirements[target_relation]["output"],
+            relation_sentence=relation_requirements[target_relation]["sentence"],
+            subj_type=relation_requirements[target_relation]["subj"],
+            obj_type=relation_requirements[target_relation]["obj"],
+            sentence=sentence
+        )
+
+        response_text = get_gemini_completion(prompt_text)
+        print("Sentence: ", sentence)
+        print("Output: ", response_text)
