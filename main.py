@@ -1,9 +1,18 @@
 import argparse
 from bs4 import BeautifulSoup
 import requests
-import spacy
-from spacy_help_functions import get_entities, create_entity_pairs
+# import spacy
+# from spacy_help_functions import get_entities, create_entity_pairs
 from gemini import extract_relations_gemini
+
+# Map relation numbers to names for clarity
+relation_map = {
+    1: "Schools_Attended",
+    2: "Work_For",
+    3: "Live_In",
+    4: "Top_Member_Employees"
+}
+
 
 def check_threshold(value):
     """
@@ -99,9 +108,46 @@ def extract_plain_text(url, max_length=10000):
     return raw_text
 
 
-def extract_named_entities(raw_text):
-    # TODO: Look at the example_relations.py file to see how to do this
-    pass
+def extract_named_entities(raw_text, args):
+    entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
+    relation_requirements = {
+        "Schools_Attended": {"subj": "PERSON", "obj": ["ORGANIZATION"]},
+        "Work_For": {"subj": "PERSON", "obj": ["ORGANIZATION"]},
+        "Live_In": {"subj": "PERSON", "obj": ["LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]},
+        "Top_Member_Employees": {"subj": "ORGANIZATION", "obj": ["PERSON"]}
+    }
+
+    requirement = relation_requirements[relation_map[args.r]]
+
+    # Load spacy model
+    nlp = spacy.load("en_core_web_lg")
+
+    # Process the text with spaCy (includes tokenization, sentence segmentation, and NER)
+    doc = nlp(raw_text)
+
+    # Iterate over each sentence and extract named entities
+    for sentence in doc.sents:
+        print("\n\nProcessing sentence: {}".format(sentence))
+        print("Tokenized sentence: {}".format([token.text for token in sentence]))
+
+        ents = get_entities(sentence, entities_of_interest)
+        print("spaCy extracted entities: {}".format(ents))
+
+        # Create entity pairs
+        candidate_pairs = []
+        sentence_entity_pairs = create_entity_pairs(sentence, entities_of_interest)
+
+        for ep in sentence_entity_pairs:
+            # Keep subject-object pairs of the right type for the target relation 
+            pair1 = {"tokens": ep[0], "subj": ep[1], "obj": ep[2]}  # e1=Subject, e2=Object
+            pair2 = {"tokens": ep[0], "subj": ep[2], "obj": ep[1]}  # e1=Object, e2=Subject
+
+            if pair1["subj"][1] == requirement["subj"] and pair1["obj"][1] in requirement["obj"]:
+                candidate_pairs.append(pair1)
+            if pair2["subj"][1] == requirement["subj"] and pair2["obj"][1] in requirement["obj"]:
+                candidate_pairs.append(pair2)
+    
+    return candidate_pairs
 
 
 def extract_relations(args, text):
@@ -116,14 +162,6 @@ def main():
     # Parse and validate all user input from args
     args = validate_args()
 
-    # Map relation numbers to names for clarity
-    relation_map = {
-        1: "Schools_Attended",
-        2: "Work_For",
-        3: "Live_In",
-        4: "Top_Member_Employees"
-    }
-
     # Print to terminal
     print("Parameters:")
     print(f"Google Search API Key: {args.google_search_api_key}")
@@ -136,7 +174,10 @@ def main():
     print(f"Number of Tuples: {args.k}")
 
     # NOTE: Testing things for now, can delete later
-    text = extract_plain_text('https://www.cs.columbia.edu/~gravano/cs6111/Proj2/')
+    text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
+    print(text)
+    candidate_pairs = extract_named_entities(text)
+    print(candidate_pairs)
 
     # Keep track of URLs that have been processed in previous iterations
     processed_urls = set()
