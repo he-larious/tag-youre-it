@@ -125,6 +125,9 @@ def extract_named_entities(raw_text, args):
     # Process the text with spaCy (includes tokenization, sentence segmentation, and NER)
     doc = nlp(raw_text)
 
+    # Each element will be a tuple with element 1 being the sentence and element 2 being the candidate pairs
+    sentence_candidate_pairs = []
+
     # Iterate over each sentence and extract named entities
     for sentence in doc.sents:
         print("\n\nProcessing sentence: {}".format(sentence))
@@ -146,8 +149,10 @@ def extract_named_entities(raw_text, args):
                 candidate_pairs.append(pair1)
             if pair2["subj"][1] == requirement["subj"] and pair2["obj"][1] in requirement["obj"]:
                 candidate_pairs.append(pair2)
+        
+        sentence_candidate_pairs.append((sentence, candidate_pairs))
     
-    return candidate_pairs
+    return sentence_candidate_pairs
 
 
 def extract_relations(args, text):
