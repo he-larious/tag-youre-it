@@ -176,7 +176,7 @@ def main():
     # NOTE: Testing things for now, can delete later
     text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
     print(text)
-    candidate_pairs = extract_named_entities(text)
+    candidate_pairs = extract_named_entities(text, args)
     print(candidate_pairs)
 
     # Keep track of URLs that have been processed in previous iterations
