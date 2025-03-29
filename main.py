@@ -137,7 +137,8 @@ def extract_named_entities(raw_text, args):
     sentence_candidate_pairs = []
 
     # Iterate over each sentence and extract named entities
-    print(f"\tExtracted {len(doc.sents)} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
+    
+    print(f"\tExtracted {len(list(doc.sents))} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
     num_processed = 0
     for sentence in doc.sents:
         # print("\n\nProcessing sentence: {}".format(sentence))
@@ -172,11 +173,13 @@ def extract_relations(args, sentence_candidate_pairs):
     #TODO both methods need to print to terminal throughout and end of process
     #TODO: return a list of tuples (if gemini --> (subj, obj). if spanbert --> (confidence, subj, obj))
     if args.extraction_method == 'spanbert':
+        return [(1.0,"","")]
         # Call some helper function
         candidate_pairs = sentence_candidate_pairs[-1]
-        return [(1.0,"","")]
+        
     
     elif args.extraction_method == 'gemini':
+        return [("a","b")]
         # Get plain text sentences to feed into gemini
         sentences = []
 
@@ -184,7 +187,6 @@ def extract_relations(args, sentence_candidate_pairs):
             sentences.append(sentence)
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
-        return [("a","b")]
 
 def process_query(q, service):
     """
@@ -220,7 +222,6 @@ def process_query(q, service):
 def main():
     # Parse and validate all user input from args
     args = validate_args()
-    service = build("customsearch", "v1", developerKey="AIzaSyDoyk2WXtfi8eu5kYEKhEV4J8WlgPpBTfs")
 
     # Print to intro to terminal
     print("____")
@@ -237,9 +238,10 @@ def main():
 
 
     # start iterations
+    service = build("customsearch", "v1", developerKey=args.google_search_api_key)
     num_iteration = 0
     while True:
-        print(f"=========== Iteration: {num_iteration} - Query: sundar pichai google ===========\n\n")
+        print(f"=========== Iteration: {num_iteration} - Query: {args.q} ===========\n\n")
         num_iteration += 1
 
         # process query
@@ -259,6 +261,8 @@ def main():
             print("\tAnnotating the webpage using spacy...")
             sentence_candidate_pairs = extract_named_entities(text, args)
             results = extract_relations(args, sentence_candidate_pairs)
+
+            # Reached k tuples
             if len(results) >= k:
                 if args.extraction_method == 'gemini':
                     relation = relation_map[args.r]
@@ -272,6 +276,7 @@ def main():
                     print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
                     for res in results: # res = (confidence,subj,obj)
                         print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
+                break
 
     # NOTE: Testing things for now, can delete later
     # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
