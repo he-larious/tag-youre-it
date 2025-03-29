@@ -263,7 +263,7 @@ def main():
             results = extract_relations(args, sentence_candidate_pairs)
 
             # Reached k tuples
-            if len(results) >= k:
+            if len(results) >= args.k:
                 if args.extraction_method == 'gemini':
                     relation = relation_map[args.r]
                     print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
