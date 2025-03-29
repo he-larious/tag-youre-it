@@ -255,28 +255,28 @@ def main():
             count += 1
             print("\tFetching text from url ...")
             text = extract_plain_text(curr_url)
-            if text == None: #unable to retrieve page
+            if text == None: # unable to retrieve page
                 continue
             print(f"\tWebpage length (num characters): {len(text)}")
             print("\tAnnotating the webpage using spacy...")
             sentence_candidate_pairs = extract_named_entities(text, args)
             results = extract_relations(args, sentence_candidate_pairs)
 
-            # Reached k tuples
-            if len(results) >= args.k:
-                if args.extraction_method == 'gemini':
-                    relation = relation_map[args.r]
-                    print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-                    for res in results: # res = (subj,obj)
-                        print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
-                        print(f"Total # of iterations = {num_iteration-1}")
-                        print(f"Total # of iterations = {num_iteration-1}")
-                else:
-                    relation = internal_map[args.r]
-                    print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-                    for res in results: # res = (confidence,subj,obj)
-                        print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
-                break
+        # Reached k tuples
+        if len(results) >= args.k:
+            if args.extraction_method == 'gemini':
+                relation = relation_map[args.r]
+                print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+                for res in results: # res = (subj,obj)
+                    print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
+                    print(f"Total # of iterations = {num_iteration-1}")
+                    print(f"Total # of iterations = {num_iteration-1}")
+            else:
+                relation = internal_map[args.r]
+                print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+                for res in results: # res = (confidence,subj,obj)
+                    print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
+            break
 
     # NOTE: Testing things for now, can delete later
     # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
