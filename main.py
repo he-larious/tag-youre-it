@@ -4,6 +4,7 @@ import requests
 import spacy
 from spacy_help_functions import get_entities, create_entity_pairs
 from gemini import extract_relations_gemini
+from googleapiclient.discovery import build
 
 # Map relation numbers to names for clarity
 relation_map = {
@@ -12,7 +13,12 @@ relation_map = {
     3: "Live_In",
     4: "Top_Member_Employees"
 }
-
+internal_map = {
+    1: "per:schools_attended",
+    2:"per:employee_of",
+    3:"per:cities_of_residence",
+    4:"org:top_members/employees"
+}
 
 def check_threshold(value):
     """
@@ -45,10 +51,6 @@ def check_positive_int(value):
 def validate_args():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("google_search_api_key", type=str, help="Google Custom Search Engine JSON API Key")
-    parser.add_argument("google_engine_id", type=str, help="Google Engine ID")
-    parser.add_argument("google_gemini_api_key", type=str, help="Google Gemini API Key")
-
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
         "-spanbert",
@@ -65,8 +67,12 @@ def validate_args():
         help="Use Google Gemini for information extraction"
     )
 
+    parser.add_argument("google_search_api_key", type=str, help="Google Custom Search Engine JSON API Key")
+    parser.add_argument("google_engine_id", type=str, help="Google Engine ID")
+    parser.add_argument("google_gemini_api_key", type=str, help="Google Gemini API Key")
+
     parser.add_argument(
-        "r", 
+        "r",
         type=int,
         choices=range(1, 5),
         help=("Relation to extract: 1 = Schools_Attended, 2 = Work_For, 3 = Live_In, 4 = Top_Member_Employees")
@@ -88,7 +94,8 @@ def extract_plain_text(url, max_length=10000):
         response = requests.get(url, timeout=10)
         response.raise_for_status() 
     except Exception as e:
-        print(f"Skipping URL {url} due to retrieval error: {e}")
+        # print(f"Skipping URL {url} due to retrieval error: {e}")
+        print("Unable to fetch URL. Continuing.")
         return None
 
     # Parse the HTML file
@@ -103,6 +110,7 @@ def extract_plain_text(url, max_length=10000):
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
+        print(f"\tTrimming webpage content from {len(raw_text)} to 10000 characters")
         raw_text = raw_text[:max_length]
 
     return raw_text
@@ -129,12 +137,14 @@ def extract_named_entities(raw_text, args):
     sentence_candidate_pairs = []
 
     # Iterate over each sentence and extract named entities
+    print(f"\tExtracted {len(doc.sents)} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
+    num_processed = 0
     for sentence in doc.sents:
-        print("\n\nProcessing sentence: {}".format(sentence))
-        print("Tokenized sentence: {}".format([token.text for token in sentence]))
+        # print("\n\nProcessing sentence: {}".format(sentence))
+        # print("Tokenized sentence: {}".format([token.text for token in sentence]))
 
         ents = get_entities(sentence, entities_of_interest)
-        print("spaCy extracted entities: {}".format(ents))
+        # print("spaCy extracted entities: {}".format(ents))
 
         # Create entity pairs
         candidate_pairs = []
@@ -156,10 +166,16 @@ def extract_named_entities(raw_text, args):
     return sentence_candidate_pairs
 
 
+
+
 def extract_relations(args, sentence_candidate_pairs):
+    #TODO both methods need to print to terminal throughout and end of process
+    #TODO: return a list of tuples (if gemini --> (subj, obj). if spanbert --> (confidence, subj, obj))
     if args.extraction_method == 'spanbert':
         # Call some helper function
-        pass
+        candidate_pairs = sentence_candidate_pairs[-1]
+        return [(1.0,"","")]
+    
     elif args.extraction_method == 'gemini':
         # Get plain text sentences to feed into gemini
         sentences = []
@@ -168,26 +184,99 @@ def extract_relations(args, sentence_candidate_pairs):
             sentences.append(sentence)
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
+        return [("a","b")]
+
+def process_query(q, service):
+    """
+    This function processes a search query by calling the Google Custom Search Engine API
+    and returns a list of search results containing the title, URL, and description.
+
+    Parameters:
+        q (str): The search query string to be submitted to the search engine.
+        service (object): An authenticated Google API client service object for interacting with the API.
+
+    Returns:
+        list: A 2D list where each element is a list in the form [title, url, description].
+    """
+    res = (
+        service.cse()
+        .list(
+            q=q,
+            cx="a6b6d898d001649c2",
+        )
+        .execute()
+    )
+    results = [item["link"] for item in res["items"]]
+    # for item in res["items"]:
+    #     title = item["title"]
+    #     url = item["link"]
+    #     description = item["snippet"]
+
+    #     results.append([title, url, description])
+
+    return results
 
 
 def main():
     # Parse and validate all user input from args
     args = validate_args()
+    service = build("customsearch", "v1", developerKey="AIzaSyDoyk2WXtfi8eu5kYEKhEV4J8WlgPpBTfs")
 
-    # Print to terminal
+    # Print to intro to terminal
+    print("____")
     print("Parameters:")
-    print(f"Google Search API Key: {args.google_search_api_key}")
-    print(f"Google Engine ID: {args.google_engine_id}")
-    print(f"Google Gemini API Key: {args.google_gemini_api_key}")
-    print(f"Extraction Method: {args.extraction_method}")
-    print(f"Relation: {args.r} ({relation_map[args.r]})")
-    print(f"Threshold: {args.t}")
-    print(f"Seed Query: {args.q}")
-    print(f"Number of Tuples: {args.k}")
+    print(f"Client key	= {args.google_search_api_key}")
+    print(f"Engine key	= {args.google_engine_id}")
+    print(f"Gemini key	= {args.google_gemini_api_key}")
+    print(f"Method	= {args.extraction_method}")
+    print(f"Relation	= {relation_map[args.r]}")
+    print(f"Threshold	= {args.t}")
+    print(f"Query		= {args.q}")
+    print(f"# of Tuples	= {args.k}")
+    print("Loading necessary libraries; This should take a minute or so ...)")
+
+
+    # start iterations
+    num_iteration = 0
+    while True:
+        print(f"=========== Iteration: {num_iteration} - Query: sundar pichai google ===========\n\n")
+        num_iteration += 1
+
+        # process query
+        top_urls = process_query(args.q, service)
+
+        # process each url
+        count = 0
+        while(count < 10):
+            curr_url = top_urls[count]
+            print(f"URL ( {count+1} / 10): {curr_url}")
+            count += 1
+            print("\tFetching text from url ...")
+            text = extract_plain_text(curr_url)
+            if text == None: #unable to retrieve page
+                continue
+            print(f"\tWebpage length (num characters): {len(text)}")
+            print("\tAnnotating the webpage using spacy...")
+            sentence_candidate_pairs = extract_named_entities(text, args)
+            results = extract_relations(args, sentence_candidate_pairs)
+            if len(results) >= k:
+                if args.extraction_method == 'gemini':
+                    relation = relation_map[args.r]
+                    print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+                    for res in results: # res = (subj,obj)
+                        print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
+                        print(f"Total # of iterations = {num_iteration-1}")
+                        print(f"Total # of iterations = {num_iteration-1}")
+                else:
+                    relation = internal_map[args.r]
+                    print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+                    for res in results: # res = (confidence,subj,obj)
+                        print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
 
     # NOTE: Testing things for now, can delete later
-    text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
+    # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
     sentence_candidate_pairs = extract_named_entities(text, args)
+    print(sentence_candidate_pairs)
     extract_relations(args, sentence_candidate_pairs)
 
     # Keep track of URLs that have been processed in previous iterations
@@ -196,3 +285,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+        # print("\tWebpage length (num characters): 0")
+        # print("\tAnnotating the webpage using spacy...")
+        # print("\tExtracted 0 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
+        # print("\n")
+        # print("\tExtracted annotations for  0  out of total  0  sentences")
+        # print("\tRelations extracted from this website: 0 (Overall: 0)")
