@@ -101,7 +101,7 @@ def extract_plain_text(url, max_length=10000):
     """
     try:
         response = requests.get(url, timeout=10)
-        response.raise_for_status() 
+        response.raise_for_status()
     except Exception as e:
         # print(f"Skipping URL {url} due to retrieval error: {e}")
         print(e)
@@ -238,7 +238,9 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-
+        print(requests.get("http://www.microsoft.com/", timeout=10))
+        print(requests.get("http://www.microsoft.com", timeout=10))
+        break
         # Process each url
         count = 0
         while(count < 10):
