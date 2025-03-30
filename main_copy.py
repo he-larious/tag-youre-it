@@ -7,6 +7,7 @@ from spacy_help_functions import get_entities, create_entity_pairs
 from gemini import extract_relations_gemini
 from spanbert_process import extract_relations_spanbert
 from googleapiclient.discovery import build
+from spanbert import SpanBERT
 
 # Map relation numbers to names for clarity
 relation_map = {
