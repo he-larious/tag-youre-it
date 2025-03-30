@@ -237,15 +237,20 @@ def main():
     print(f"# of Tuples	= {args.k}")
     print("Loading necessary libraries; This should take a minute or so ...)")
 
-
+    # Keep track of URLs that have been processed in previous urls, queries, results
+    processed_urls = set()
+    processed_queries = set()
+    gemini_res = set()
+    spanbert_res = {}
+    if args.extraction_method == 'spanbert':
+        results = spanbert_res
+    else:
+        results = gemini_res
+    
     # start iterations
     service = build("customsearch", "v1", developerKey=args.google_search_api_key)
     num_iteration = 0
-    # Keep track of URLs that have been processed in previous iterations
-    processed_urls = set()
-    processed_queries = set()
     q = args.q
-    results = []
     while True:
         processed_queries.add(q)
         print(f"=========== Iteration: {num_iteration} - Query: {q} ===========\n\n")
