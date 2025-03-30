@@ -117,18 +117,23 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
 
 
 def parse_response_text(sentence, response_text, results):
-    parsed_relations = json.loads(response_text)
-        
-    # Verify parsed result is a list and add each inner list as a tuple to the results set
-    if isinstance(parsed_relations, list):
-        for relation in parsed_relations:
-            # Ensure the relation is a list with exactly three items
-            if isinstance(relation, list) and len(relation) == 3:
-                results.add(tuple(relation))
+    try:
+        parsed_relations = json.loads(response_text)
             
-            print("\n\t\t=== Extracted Relation ===")
-            print("\t\tSentence: ", sentence)
-            print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
-            print("\t\tAdding to set of extracted relations\n")
-    else:
-        print("Parsed output is not a list:", parsed_relations)
+        # Verify parsed result is a list and add each inner list as a tuple to the results set
+        if isinstance(parsed_relations, list):
+            for relation in parsed_relations:
+                # Ensure the relation is a list with exactly three items
+                if isinstance(relation, list) and len(relation) == 3:
+                    results.add(tuple(relation))
+                
+                print("\n\t\t=== Extracted Relation ===")
+                print("\t\tSentence: ", sentence)
+                print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
+                print("\t\tAdding to set of extracted relations\n")
+        else:
+            print("Parsed output is not a list:", parsed_relations)
+    except json.JSONDecodeError as e:
+        print("Error parsing JSON:", e)
+        print("Raw response_text:", response_text)
+        return
