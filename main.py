@@ -170,7 +170,7 @@ def extract_named_entities(raw_text, args):
 
 
 
-def extract_relations(args, sentence_candidate_pairs):
+def extract_relations(args, sentence_candidate_pairs, results):
     #TODO both methods need to print to terminal throughout and end of process
     #TODO: return a list of tuples (if gemini --> (subj, obj). if spanbert --> (confidence, subj, obj))
     if args.extraction_method == 'spanbert':
@@ -271,7 +271,7 @@ def main():
             print(f"\tWebpage length (num characters): {len(text)}")
             print("\tAnnotating the webpage using spacy...")
             sentence_candidate_pairs = extract_named_entities(text, args)
-            results = extract_relations(args, sentence_candidate_pairs)
+            results = extract_relations(args, sentence_candidate_pairs, results)
 
         updated = False
         if args.extraction_method == 'gemini':
