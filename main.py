@@ -108,10 +108,14 @@ def extract_plain_text(url, max_length=10000):
         tag.decompose()
 
     # Extract plain text from the HTML
-    text = soup.get_text(separator=" ", strip=True)
+    raw_text = soup.get_text(separator=" ", strip=True)
 
     # Replace multiple whitespace characters (including newlines) with a single space
-    raw_text = re.sub(r'\s+', ' ', text).strip()
+    raw_text = re.sub(r'\s+', ' ', raw_text).strip()
+
+    # Remove footnotes like "[ 1 ]", "[2]", etc.
+    raw_text = re.sub(r'\[\s*\d+\s*\]', '', raw_text)
+
     print(raw_text)
 
     # Truncate text if it's longer than max_length characters
