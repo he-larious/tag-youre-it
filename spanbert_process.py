@@ -14,7 +14,7 @@ def extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results,
         # check if relation is target
         if target_r != pred[0]:
             continue
-        
+
         print("\t\t=== Extracted Relation ===")
         confidence = pred[1]
         subj = ex['subj'][0]
@@ -23,7 +23,7 @@ def extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results,
         print(f"\t\tInput tokens: {input_tokens}")
         print(f"\t\tOutput Confidence: {confidence} ; Subject: {subj} ; Object: {obj} ;")
 
-        # results = {(subj, obj): confidence, ..., (subj, obj): confidence} 
+        # results = {(subj, obj): confidence, ..., (subj, obj): confidence}
 
         if confidence < t:
             print("\t\tConfidence is lower than threshold confidence. Ignoring this.")
@@ -34,7 +34,10 @@ def extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results,
         # otherwise, add to results
         else:
             results[(subj, obj)] = confidence
-            print("Adding to set of extracted relations")
+            print("\t\tAdding to set of extracted relations")
         print("\t\t==========")
-    print("\n")
+    # print("\n")
+    
+    # Sort results
+    results = dict(sorted(x.items(), key=lambda item: item[1]))
     return results, total_extracted
