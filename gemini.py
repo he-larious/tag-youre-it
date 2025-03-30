@@ -50,72 +50,70 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
     return response.text.strip() if response.text else "No response received"
 
 
-def extract_relations_gemini(gemini_api_key, target_relation, sentences, results):
+def extract_relations_gemini(gemini_api_key, target_relation, sentence, results, total_extracted):
     genai.configure(api_key=gemini_api_key)
 
-    total_sentences = len(sentences)
-    processed_sentences = 0
-
-    for sentence in sentences:
-        prompt_text = """
-        Below is an example of relation extraction for the '{relation}' relationship:
-        Example Output: {relation_output}
-        Example Sentence: {relation_sentence}
+    prompt_text = """
+    Below is an example of relation extraction for the '{relation}' relationship:
+    Example Output: {relation_output}
+    Example Sentence: {relation_sentence}
             
-        Now, given the following sentence, extract all instances of the '{relation}' relationship. 
-        In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
-        If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
-        Return your answer as a list of lists, where each inner array is formatted as ["Subject", "{relation}", "Object"].
-        If no relation is found, return an empty array [].
-        Do not include any additional text or markdown formatting.
-        Sentence: {sentence}
-        """.format(
-            relation=target_relation,
-            relation_output=relation_requirements[target_relation]["output"],
-            relation_sentence=relation_requirements[target_relation]["sentence"],
-            subj_type=relation_requirements[target_relation]["subj"],
-            obj_type=relation_requirements[target_relation]["obj"],
-            sentence=sentence
-        )
+    Now, given the following sentence, extract all instances of the '{relation}' relationship. 
+    In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
+    If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
+    Return your answer as a list of lists, where each inner array is formatted as ["Subject", "{relation}", "Object"].
+    If no relation is found, return an empty array [].
+    Do not include any additional text or markdown formatting.
+    Sentence: {sentence}
+    """.format(
+        relation=target_relation,
+        relation_output=relation_requirements[target_relation]["output"],
+        relation_sentence=relation_requirements[target_relation]["sentence"],
+        subj_type=relation_requirements[target_relation]["subj"],
+        obj_type=relation_requirements[target_relation]["obj"],
+        sentence=sentence
+    )
 
-        # If we don't get a successful response, try again
-        retries = 0
-        max_retries = 5
+    # If we don't get a successful response, try again
+    retries = 0
+    max_retries = 5
 
-        # To avoid resource exhausted errors
-        initial_delay = 2  # Start with a 2 second delay
-        delay = initial_delay
-        max_delay = 30  # Cap the delay to 30 seconds
+    # To avoid resource exhausted errors
+    initial_delay = 2  # Start with a 2 second delay
+    delay = initial_delay
+    max_delay = 30  # Cap the delay to 30 seconds
         
-        while True:
-            try:
-                response_text = get_gemini_completion(prompt_text)
-                break  # Request succeeded, exit the retry loop
-            except Exception as e:
-                if retries < max_retries:
-                    #print(f"Error encountered: {e}. Retrying after {delay} seconds...")
-                    time.sleep(delay + random.uniform(0, 1))  # Add jitter
-                    retries += 1
-                    delay = min(delay * 2, max_delay)  # Exponential backoff with a max cap
-                else:
-                    #print("Max retries reached. Skipping this sentence.")
-                    response_text = ""
-                    break
-        
-        processed_sentences += 1
-        if (processed_sentences != 0 and processed_sentences % 5 == 0) or processed_sentences == total_sentences:
-            print(f"\tProcessed {processed_sentences} / {total_sentences} sentences\n")
+    while True:
+        try:
+            response_text = get_gemini_completion(prompt_text)
+            break  # Request succeeded, exit the retry loop
+        except Exception as e:
+            if retries < max_retries:
+                #print(f"Error encountered: {e}. Retrying after {delay} seconds...")
+                time.sleep(delay + random.uniform(0, 1))  # Add jitter
+                retries += 1
+                delay = min(delay * 2, max_delay)  # Exponential backoff with a max cap
+            else:
+                #print("Max retries reached. Skipping this sentence.")
+                response_text = ""
+                break
 
-        # print("Sentence: ", sentence)
-        # print("Output: ", response_text)
+    # print("Sentence: ", sentence)
+    # print("Output: ", response_text)
 
-        parse_response_text(sentence, response_text, results)
+    has_valid_result = parse_response_text(sentence, response_text, results)
+    if has_valid_result:
+        total_extracted += 1
 
-        # Add a short pause between successful requests to reduce load
-        time.sleep(2)
+    # Add a short pause between successful requests to reduce load
+    time.sleep(2)
+
+    return total_extracted
 
 
 def parse_response_text(sentence, response_text, results):
+    has_valid_result = False
+
     try:
         parsed_relations = json.loads(response_text)
             
@@ -125,6 +123,7 @@ def parse_response_text(sentence, response_text, results):
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
                     results.add(tuple(relation))
+                    has_valid_result = True
                 
                 print("\n\t\t=== Extracted Relation ===")
                 print("\t\tSentence: ", sentence)
@@ -135,4 +134,6 @@ def parse_response_text(sentence, response_text, results):
     except json.JSONDecodeError as e:
         print("Error parsing JSON:", e)
         print("Raw response_text:", response_text)
-        return
+        return False
+    
+    return has_valid_result
