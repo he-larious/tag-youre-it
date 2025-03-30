@@ -59,9 +59,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     Example Sentence: {relation_sentence}
             
     Now, given the following sentence, extract all instances of the '{relation}' relationship. 
-    In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
-    If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
-    Return your answer as a list of lists, where each inner array is formatted as ["Subject", "{relation}", "Object"].
+    Return your answer as a list of lists, where each inner array is formatted as ["Subject: {subj_type}", "{relation}", "Object: {obj_type}"].
     If no relation is found, return an empty array [].
     Do not include any additional text or markdown formatting.
     Sentence: {sentence}
