@@ -3,6 +3,34 @@ import random
 import time
 import google.generativeai as genai
 
+relation_requirements = {
+    "Schools_Attended": {
+        "subj": "PERSON", 
+        "obj": "ORGANIZATION",
+        "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
+        "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University."
+    },
+    "Work_For": {
+        "subj": "PERSON", 
+        "obj": "ORGANIZATION",
+        "output": '["Alec Radford", "Work_For", "OpenAI"]',
+        "sentence": "Alec Radford, an experienced researcher, recently joined OpenAI as a lead scientist."
+    },
+    "Live_In": {
+        "subj": "PERSON", 
+        "obj": "LOCATION or CITY or STATE_OR_PROVINCE or COUNTRY",
+        "output": '["Mariah Carey", "Live_In", "New York City"]',
+        "sentence": "Mariah Carey, a celebrated singer, lives in New York City."
+    },
+    "Top_Member_Employees": {
+        "subj": "ORGANIZATION", 
+        "obj": "PERSON",
+        "output": '["Nvidia", "Top_Member_Employees", "Jensen Huang"]',
+        "sentence": "Nvidia, a leading tech company, counts Jensen Huang among its top executives."
+    }
+}
+
+
 # Generate response to prompt
 def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200, temperature=0.2, top_p=1, top_k=32):
     # Initialize a generative model
@@ -24,33 +52,6 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
 
 def extract_relations_gemini(gemini_api_key, target_relation, sentences, results):
     genai.configure(api_key=gemini_api_key)
-
-    relation_requirements = {
-        "Schools_Attended": {
-            "subj": "PERSON", 
-            "obj": "ORGANIZATION",
-            "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
-            "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University."
-        },
-        "Work_For": {
-            "subj": "PERSON", 
-            "obj": "ORGANIZATION",
-            "output": '["Alec Radford", "Work_For", "OpenAI"]',
-            "sentence": "Alec Radford, an experienced researcher, recently joined OpenAI as a lead scientist."
-        },
-        "Live_In": {
-            "subj": "PERSON", 
-            "obj": "LOCATION or CITY or STATE_OR_PROVINCE or COUNTRY",
-            "output": '["Mariah Carey", "Live_In", "New York City"]',
-            "sentence": "Mariah Carey, a celebrated singer, lives in New York City."
-        },
-        "Top_Member_Employees": {
-            "subj": "ORGANIZATION", 
-            "obj": "PERSON",
-            "output": '["Nvidia", "Top_Member_Employees", "Jensen Huang"]',
-            "sentence": "Nvidia, a leading tech company, counts Jensen Huang among its top executives."
-        }
-    }
 
     total_sentences = len(sentences)
     processed_sentences = 0
@@ -106,10 +107,8 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         
         processed_sentences += 1
 
-
-        print("Sentence: ", sentence)
-        print("Output: ", response_text)
-        print(type(response_text))
+        # print("Sentence: ", sentence)
+        # print("Output: ", response_text)
 
         parse_response_text(response_text, results)
 
@@ -117,17 +116,20 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         time.sleep(2)
 
 
-def parse_response_text(response_text, results):
-    try:
-        parsed_relations = json.loads(response_text)
+def parse_response_text(sentence, response_text, results):
+    parsed_relations = json.loads(response_text)
         
-        # Verify parsed result is a list and add each inner list as a tuple to the results set
-        if isinstance(parsed_relations, list):
-            for relation in parsed_relations:
-                # Ensure the relation is a list with exactly three items
-                if isinstance(relation, list) and len(relation) == 3:
-                    results.add(tuple(relation))
-        else:
-            print("Parsed output is not a list:", parsed_relations)
-    except json.JSONDecodeError as e:
-        print("Error parsing JSON:", e)
+    # Verify parsed result is a list and add each inner list as a tuple to the results set
+    if isinstance(parsed_relations, list):
+        if len(parsed_relations) != 0:
+            print("\n\t\t=== Extracted Relation ===")
+            print("\t\tSentence: ", sentence)
+            print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
+            print("Adding to set of extracted relations")
+
+        for relation in parsed_relations:
+            # Ensure the relation is a list with exactly three items
+            if isinstance(relation, list) and len(relation) == 3:
+                results.add(tuple(relation))
+    else:
+        print("Parsed output is not a list:", parsed_relations)
