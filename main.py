@@ -116,8 +116,6 @@ def extract_plain_text(url, max_length=10000):
     # Remove footnotes like "[ 1 ]", "[2]", etc.
     raw_text = re.sub(r'\[\s*\d+\s*\]', '', raw_text)
 
-    print(raw_text)
-
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
         print(f"\tTrimming webpage content from {len(raw_text)} to 10000 characters")
@@ -189,7 +187,6 @@ def extract_relations(args, sentence_candidate_pairs, results):
         
     
     elif args.extraction_method == 'gemini':
-        return [("a","b")]
         # Get plain text sentences to feed into gemini
         sentences = []
 
@@ -197,6 +194,7 @@ def extract_relations(args, sentence_candidate_pairs, results):
             sentences.append(sentence)
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
+        return [("a","b")]
 
 def process_query(q, service, engine_id):
     """
@@ -214,7 +212,7 @@ def process_query(q, service, engine_id):
         service.cse()
         .list(
             q=q,
-            cx="a6b6d898d001649c2",
+            cx=engine_id,
         )
         .execute()
     )
