@@ -191,15 +191,14 @@ def extract_relations(args, sentence_candidate_pairs, results):
     elif args.extraction_method == 'gemini':
         # Get plain text sentences to feed into gemini
         sentences = []
-        gemini_results = set()
 
         for sentence, candidate_pairs in sentence_candidate_pairs:
             sentences.append(sentence)
 
-        extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences, gemini_results)
-        print(gemini_results)
-        print(len(gemini_results))
-        return gemini_results
+        extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences, results)
+        print(results)
+        print(len(results))
+        return results
 
 def process_query(q, service, engine_id):
     """
@@ -289,9 +288,6 @@ def main():
             print("\tAnnotating the webpage using spacy...")
             sentence_candidate_pairs = extract_named_entities(text, args)
             results = extract_relations(args, sentence_candidate_pairs, results)
-
-            if args.extraction_method == 'gemini':
-                gemini_res.add(results)
 
         updated = False
         if args.extraction_method == 'gemini':
