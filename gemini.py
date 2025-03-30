@@ -1,3 +1,4 @@
+import json
 import random
 import time
 import google.generativeai as genai
@@ -66,9 +67,9 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         Now, given the following sentence, extract all instances of the '{relation}' relationship. 
         In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
         If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
-        Return your answer as a Python list of lists, where each inner array is formatted as ["Subject", "{relation}", "Object"].
-        Do not include any additional text or markdown formatting.
+        Return your answer as a list of lists, where each inner array is formatted as ["Subject", "{relation}", "Object"].
         If no relation is found, return an empty array [].
+        Do not include any additional text or markdown formatting.
         Sentence: {sentence}
         """.format(
             relation=target_relation,
@@ -110,5 +111,23 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         print("Output: ", response_text)
         print(type(response_text))
 
+        parse_response_text(response_text, results)
+
         # Add a short pause between successful requests to reduce load
         time.sleep(2)
+
+
+def parse_response_text(response_text, results):
+    try:
+        parsed_relations = json.loads(response_text)
+        
+        # Verify parsed result is a list and add each inner list as a tuple to the results set
+        if isinstance(parsed_relations, list):
+            for relation in parsed_relations:
+                # Ensure the relation is a list with exactly three items
+                if isinstance(relation, list) and len(relation) == 3:
+                    results.add(tuple(relation))
+        else:
+            print("Parsed output is not a list:", parsed_relations)
+    except json.JSONDecodeError as e:
+        print("Error parsing JSON:", e)

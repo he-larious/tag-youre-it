@@ -191,6 +191,7 @@ def extract_relations(args, sentence_candidate_pairs, results):
             sentences.append(sentence)
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences, results)
+        print(results)
         return [("a","b")]
 
 def process_query(q, service, engine_id):
