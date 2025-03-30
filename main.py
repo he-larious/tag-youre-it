@@ -253,19 +253,17 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-        print("TOP IRLS", top_urls)
-
 
         # process each url
         count = 0
         while(count < 10):
             curr_url = top_urls[count]
-            if curr_url in processed_urls:
-                count += 1
-                continue
-            processed_urls.add(curr_url)
             print(f"URL ( {count+1} / 10): {curr_url}")
             count += 1
+            if curr_url in processed_urls:
+                print("This URL has already been processed. Continuing.")
+                continue
+            processed_urls.add(curr_url)
             print("\tFetching text from url ...")
             text = extract_plain_text(curr_url)
             if text == None: # unable to retrieve page
@@ -303,21 +301,6 @@ def main():
             print("ISE has 'stalled' before retrieving k high-confidence tuples")
             break
 
-    # NOTE: Testing things for now, can delete later
-    # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
-    # sentence_candidate_pairs = extract_named_entities(text, args)
-    # print(sentence_candidate_pairs)
-    # extract_relations(args, sentence_candidate_pairs)
-
-
-
 
 if __name__ == '__main__':
     main()
-
-        # print("\tWebpage length (num characters): 0")
-        # print("\tAnnotating the webpage using spacy...")
-        # print("\tExtracted 0 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
-        # print("\n")
-        # print("\tExtracted annotations for  0  out of total  0  sentences")
-        # print("\tRelations extracted from this website: 0 (Overall: 0)")
