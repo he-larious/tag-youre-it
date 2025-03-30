@@ -161,7 +161,8 @@ def extract_relations(args, results, doc, requirement):
             if args.extraction_method == 'spanbert':
                 results, total_extracted = [], 0
             else:
-                results, total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results) #NOTE: only feeding gemini a sentence
+                results, total_extracted = [], 0
+                # results, total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results) #NOTE: only feeding gemini a sentence
         
         num_processed += 1
         if (num_processed % 5 == 0):
