@@ -253,6 +253,7 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
+        print("TOP IRLS", top_urls)
 
 
         # process each url
