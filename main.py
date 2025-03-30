@@ -241,17 +241,28 @@ def main():
     # start iterations
     service = build("customsearch", "v1", developerKey=args.google_search_api_key)
     num_iteration = 0
+    # Keep track of URLs that have been processed in previous iterations
+    processed_urls = set()
+    processed_queries = set()
+    q = args.q
+    results = []
     while True:
-        print(f"=========== Iteration: {num_iteration} - Query: {args.q} ===========\n\n")
+        processed_queries.add(q)
+        print(f"=========== Iteration: {num_iteration} - Query: {q} ===========\n\n")
         num_iteration += 1
 
-        # process query
-        top_urls = process_query(args.q, service, args.google_engine_id)
+        # Process query
+        top_urls = process_query(q, service, args.google_engine_id)
+
 
         # process each url
         count = 0
         while(count < 10):
             curr_url = top_urls[count]
+            processed_urls.add(curr_url)
+            if curr_url in processed_urls:
+                count += 1
+                continue
             print(f"URL ( {count+1} / 10): {curr_url}")
             count += 1
             print("\tFetching text from url ...")
@@ -263,30 +274,40 @@ def main():
             sentence_candidate_pairs = extract_named_entities(text, args)
             results = extract_relations(args, sentence_candidate_pairs)
 
-        # Reached k tuples
+        updated = False
+        if args.extraction_method == 'gemini':
+            relation = relation_map[args.r]
+            print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+            for res in results: # res = (subj,obj)
+                print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
+                if f"{res[0]} {res[1]}" not in processed_queries:
+                    q = f"{res[0]} {res[1]}" # update q just in case
+                    updated = True
+        else:
+            relation = internal_map[args.r]
+            print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
+            for res in results: # res = (confidence,subj,obj)
+                print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
+                if f"{res[1]} {res[2]}" not in processed_queries:
+                    q = f"{res[1]} {res[2]}" # update q just in case
+                    updated = True
+
+        # if we reached k tuples
         if len(results) >= args.k:
-            if args.extraction_method == 'gemini':
-                relation = relation_map[args.r]
-                print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-                for res in results: # res = (subj,obj)
-                    print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
-                    
-            else:
-                relation = internal_map[args.r]
-                print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-                for res in results: # res = (confidence,subj,obj)
-                    print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
             print(f"Total # of iterations = {num_iteration+1}")
             break
+        
+        # if there was no q
+        if not updated:
+            print("ISE has 'stalled' before retrieving k high-confidence tuples")
 
     # NOTE: Testing things for now, can delete later
     # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
-    sentence_candidate_pairs = extract_named_entities(text, args)
-    print(sentence_candidate_pairs)
-    extract_relations(args, sentence_candidate_pairs)
+    # sentence_candidate_pairs = extract_named_entities(text, args)
+    # print(sentence_candidate_pairs)
+    # extract_relations(args, sentence_candidate_pairs)
 
-    # Keep track of URLs that have been processed in previous iterations
-    processed_urls = set()
+
 
 
 if __name__ == '__main__':
