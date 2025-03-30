@@ -179,6 +179,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
     print("\n")
     print(f"\tExtracted annotations for  {num_valid_sent}  out of total  {TOTAL}  sentences")
     print(f"\tRelations extracted from this website: {len(results)-curr_len} (Overall: {total_extracted})")
+    print("\n")
     return results
 
 def process_query(q, service, engine_id):
