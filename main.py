@@ -286,7 +286,7 @@ def main():
             print(f"\tWebpage length (num characters): {len(text)}")
             print("\tAnnotating the webpage using spacy...")
             sentence_candidate_pairs = extract_named_entities(text, args)
-            results = extract_relations(args, sentence_candidate_pairs, results)
+            extract_relations(args, sentence_candidate_pairs, results)
 
         updated = False
         if args.extraction_method == 'gemini':

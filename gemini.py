@@ -129,6 +129,6 @@ def parse_response_text(sentence, response_text, results):
             print("\n\t\t=== Extracted Relation ===")
             print("\t\tSentence: ", sentence)
             print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
-            print("Adding to set of extracted relations")
+            print("\t\tAdding to set of extracted relations\n")
     else:
         print("Parsed output is not a list:", parsed_relations)
