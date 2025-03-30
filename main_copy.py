@@ -170,7 +170,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
                 # relation_preds = spanbert.predict(candidate_pairs)
                 # results, total_extracted = [], 0
             else:
-                total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, 0) 
+                total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, total_extracted) 
         
         num_processed += 1
         if (num_processed % 5 == 0):
