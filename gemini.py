@@ -51,8 +51,13 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         }
     }
 
+    total_sentences = len(sentences)
+    processed_sentences = 0
 
     for sentence in sentences:
+        if processed_sentences != 0 and processed_sentences % 5 == 0:
+            print(f"Processed {processed_sentences} / {total_sentences} sentences\n")
+
         prompt_text = """
         Below is an example of relation extraction for the '{relation}' relationship:
         Example Output: {relation_output}
@@ -97,9 +102,13 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
                     #print("Max retries reached. Skipping this sentence.")
                     response_text = ""
                     break
+        
+        processed_sentences += 1
+
 
         print("Sentence: ", sentence)
         print("Output: ", response_text)
+        print(type(response_text))
 
         # Add a short pause between successful requests to reduce load
         time.sleep(2)
