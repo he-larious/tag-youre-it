@@ -238,7 +238,7 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-        url = top_urls[0]
+        url = top_urls[2]
         print(requests.get(url, timeout=10))
         print(requests.get(url.strip(), timeout=10))
         print(type(url))
