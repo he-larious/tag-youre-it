@@ -120,8 +120,10 @@ def extract_plain_text(url, max_length=10000):
     # Extract plain text from the HTML
     raw_text = soup.get_text(separator=" ", strip=True)
 
-    # Replace multiple whitespace characters (including newlines) with a single space
-    raw_text = re.sub(r'\s+', ' ', raw_text).strip()
+    # Removing redundant whitespace
+    raw_text = re.sub('\t', ' ', raw_text)
+    raw_text = re.sub('\n', ' ', raw_text)
+    raw_text = re.sub(' +', ' ', raw_text)
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
