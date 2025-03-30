@@ -5,6 +5,7 @@ import requests
 import spacy
 from spacy_help_functions import get_entities, create_entity_pairs
 from gemini import extract_relations_gemini
+from spanbert_process import extract_relations_spanbert
 from googleapiclient.discovery import build
 
 # Map relation numbers to names for clarity
@@ -130,7 +131,7 @@ def extract_plain_text(url, max_length=10000):
 
 # Extract relations based on doc and 1) check for right pair of entity types 2) extract 3) check for duplicates based on results
 # NOTE: expecting set() result type for gemini, expecting {} result type for spanBERT
-def extract_relations(args, results, doc, requirement):
+def extract_relations(args, results, doc, requirement, spanbert):
     num_processed = 0
     num_valid_sent = 0
     total_extracted = 0
@@ -160,7 +161,11 @@ def extract_relations(args, results, doc, requirement):
             # 1) updated results (in a list or dictionary)
             # 2) updated count of total extractions (including the duplicates)
             if args.extraction_method == 'spanbert':
-                results, total_extracted = [], 0
+                relation_preds = spanbert.predict(candidate_pairs)
+                input_tokens = [token.text for token in sentence]
+                results, total_extracted = extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results, total_extracted, args.t, internal_map[args.r])
+                # relation_preds = spanbert.predict(candidate_pairs)
+                # results, total_extracted = [], 0
             else:
                 results, total_extracted = [], 0
                 # results, total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results) #NOTE: only feeding gemini a sentence
@@ -202,6 +207,9 @@ def main():
     # Parse and validate all user input from args
     args = validate_args()
 
+    # Load pre-trained SpanBERT model
+    spanbert = SpanBERT("./pretrained_spanbert")
+
     # Print to intro to terminal
     print("____")
     print("Parameters:")
@@ -239,20 +247,7 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-        # url = top_urls[4]
-        # print(requests.get(url, timeout=10))
-        # # print(requests.get(url.strip(), timeout=10))
-        # # print(type(url))
-        # print(url)
-        # # print(requests.get(str(url), timeout=10))
-        # # print(requests.get(url.strip(), timeout=10).text)
-        # # print(top_urls[1])
-        # # print(top_urls)
-        # url = "https://x.com/billgates"
-        # print(requests.get(url, timeout=10))
-        # print(requests.get(url.strip(), timeout=10).text)
-        # print(requests.get("http://www.microsoft.com", timeout=10))
-        # break
+
         # Process each url
         count = 0
         while(count < 10):
@@ -277,7 +272,7 @@ def main():
             print(f"\tExtracted {len(list(doc.sents))} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
 
             # Extract relations
-            results = extract_relations(args, results, doc, requirement)
+            results = extract_relations(args, results, doc, requirement, spanbert)
 
         updated = False
         if args.extraction_method == 'gemini':
