@@ -138,6 +138,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
     num_processed = 0
     num_valid_sent = 0
     total_extracted = 0
+    curr_len = len(results)
     TOTAL = len(list(doc.sents))
 
     for sentence in doc.sents:
@@ -159,7 +160,6 @@ def extract_relations(args, results, doc, requirement, spanbert):
         
         if len(candidate_pairs) > 0:
             num_valid_sent += 1
-            
             # TODO: Each method returns
             # 1) updated results (in a list or dictionary)
             # 2) updated count of total extractions (including the duplicates)
@@ -178,7 +178,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
 
     print("\n")
     print(f"\tExtracted annotations for  {num_valid_sent}  out of total  {TOTAL}  sentences")
-    print(f"\tRelations extracted from this website: {len(results)} (Overall: {total_extracted})")
+    print(f"\tRelations extracted from this website: {len(results)-curr_len} (Overall: {total_extracted})")
     return results
 
 def process_query(q, service, engine_id):
