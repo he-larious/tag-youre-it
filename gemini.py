@@ -133,9 +133,10 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
                 
         else:
             print("Parsed output is not a list:", parsed_relations)
+            return num_extracted_tuples, num_extracted_sentences
     except json.JSONDecodeError as e:
         print("Error parsing JSON:", e)
         print("Raw response_text:", response_text)
-        return
+        return num_extracted_tuples, num_extracted_sentences
     
     return num_extracted_tuples, num_extracted_sentences
