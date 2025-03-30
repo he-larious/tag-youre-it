@@ -260,10 +260,10 @@ def main():
         count = 0
         while(count < 10):
             curr_url = top_urls[count]
-            processed_urls.add(curr_url)
             if curr_url in processed_urls:
                 count += 1
                 continue
+            processed_urls.add(curr_url)
             print(f"URL ( {count+1} / 10): {curr_url}")
             count += 1
             print("\tFetching text from url ...")
