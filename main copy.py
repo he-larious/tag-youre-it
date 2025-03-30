@@ -238,20 +238,20 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-        url = top_urls[3]
-        print(requests.get(url, timeout=10))
-        # print(requests.get(url.strip(), timeout=10))
-        # print(type(url))
+        # url = top_urls[4]
+        # print(requests.get(url, timeout=10))
+        # # print(requests.get(url.strip(), timeout=10))
+        # # print(type(url))
         # print(url)
-        # print(requests.get(str(url), timeout=10))
-        # print(requests.get(url.strip(), timeout=10).text)
-        # print(top_urls[1])
-        # print(top_urls)
-        url = "https://x.com/billgates"
-        print(requests.get(url, timeout=10))
+        # # print(requests.get(str(url), timeout=10))
+        # # print(requests.get(url.strip(), timeout=10).text)
+        # # print(top_urls[1])
+        # # print(top_urls)
+        # url = "https://x.com/billgates"
+        # print(requests.get(url, timeout=10))
         # print(requests.get(url.strip(), timeout=10).text)
         # print(requests.get("http://www.microsoft.com", timeout=10))
-        break
+        # break
         # Process each url
         count = 0
         while(count < 10):
