@@ -1,4 +1,5 @@
 import argparse
+import re
 from bs4 import BeautifulSoup
 import requests
 import spacy
@@ -107,7 +108,10 @@ def extract_plain_text(url, max_length=10000):
         tag.decompose()
 
     # Extract plain text from the HTML
-    raw_text = soup.get_text(separator=" ", strip=True)
+    text = soup.get_text(separator=" ", strip=True)
+
+    # Replace multiple whitespace characters (including newlines) with a single space
+    raw_text = re.sub(r'\s+', ' ', text).strip()
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
@@ -205,7 +209,7 @@ def process_query(q, service, engine_id):
         service.cse()
         .list(
             q=q,
-            cx="a6b6d898d001649c2",
+            cx=engine_id,
         )
         .execute()
     )
