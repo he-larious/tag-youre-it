@@ -122,7 +122,7 @@ def parse_response_text(sentence, response_text, results, total_extracted):
                     print("\t\tSentence: ", sentence)
                     print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
 
-                    if relation not in results:
+                    if tuple(relation) not in results:
                         results.add(tuple(relation))
                         print("\t\tAdding to set of extracted relations\n")
                     else:
