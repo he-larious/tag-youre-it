@@ -21,7 +21,7 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
     return response.text.strip() if response.text else "No response received"
 
 
-def extract_relations_gemini(gemini_api_key, target_relation, sentences):
+def extract_relations_gemini(gemini_api_key, target_relation, sentences, results):
     genai.configure(api_key=gemini_api_key)
 
     relation_requirements = {
@@ -61,8 +61,9 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
         Now, given the following sentence, extract all instances of the '{relation}' relationship. 
         In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
         If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
-        Return your answer as a list of lists, where each inner list is formatted as ["Subject", "{relation}", "Object"] and all elements are strings.
-        If no relation is found, only return an empty list and nothing else.
+        Return your answer as a valid JSON array of arrays, where each inner array is formatted as ["Subject", "{relation}", "Object"].
+        Do not include any additional text or markdown formatting.
+        If no relation is found, return an empty JSON array [].
         Sentence: {sentence}
         """.format(
             relation=target_relation,
@@ -88,12 +89,12 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
                 break  # Request succeeded, exit the retry loop
             except Exception as e:
                 if retries < max_retries:
-                    print(f"Error encountered: {e}. Retrying after {delay} seconds...")
+                    #print(f"Error encountered: {e}. Retrying after {delay} seconds...")
                     time.sleep(delay + random.uniform(0, 1))  # Add jitter
                     retries += 1
                     delay = min(delay * 2, max_delay)  # Exponential backoff with a max cap
                 else:
-                    print("Max retries reached. Skipping this sentence.")
+                    #print("Max retries reached. Skipping this sentence.")
                     response_text = ""
                     break
 

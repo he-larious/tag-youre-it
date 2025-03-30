@@ -190,7 +190,7 @@ def extract_relations(args, sentence_candidate_pairs, results):
         for sentence, candidate_pairs in sentence_candidate_pairs:
             sentences.append(sentence)
 
-        extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
+        extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences, results)
         return [("a","b")]
 
 def process_query(q, service, engine_id):
