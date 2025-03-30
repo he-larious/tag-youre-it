@@ -249,7 +249,7 @@ def main():
         # print(top_urls)
         url = "http://www.microsoft.com/"
         print(requests.get(url, timeout=10))
-        print(requests.get(url.strip(), timeout=10).text)
+        # print(requests.get(url.strip(), timeout=10).text)
         # print(requests.get("http://www.microsoft.com", timeout=10))
         break
         # Process each url
