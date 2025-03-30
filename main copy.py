@@ -238,8 +238,16 @@ def main():
 
         # Process query
         top_urls = process_query(q, service, args.google_engine_id)
-        print(requests.get("http://www.microsoft.com/", timeout=10))
-        print(requests.get("http://www.microsoft.com", timeout=10))
+        url = top_urls[1]
+        print(requests.get(url, timeout=10))
+        print(requests.get(url.strip(), timeout=10))
+        print(requests.get(url.strip(), timeout=10).text)
+        # print(top_urls[1])
+        # print(top_urls)
+        url = "http://www.microsoft.com/"
+        print(requests.get(url, timeout=10))
+        print(requests.get(url.strip(), timeout=10).text)
+        # print(requests.get("http://www.microsoft.com", timeout=10))
         break
         # Process each url
         count = 0
