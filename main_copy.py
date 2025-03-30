@@ -169,7 +169,7 @@ def extract_relations(args, results, doc, requirement):
             print(f"\tProcessed {num_processed} / {TOTAL} sentences")
 
     print(f"\tExtracted annotations for  {num_valid_sent}  out of total  {TOTAL}  sentences")
-    print(f"\tRelations extracted from this website: {len(results)} (Overall: {total_extracted})")
+    print(f"\tRelations extracted from this website: {total_extracted} (Overall: {len(results)})")
     return results
 
 def process_query(q, service, engine_id):
