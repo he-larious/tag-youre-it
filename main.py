@@ -95,6 +95,7 @@ def extract_plain_text(url, max_length=10000):
         response.raise_for_status() 
     except Exception as e:
         # print(f"Skipping URL {url} due to retrieval error: {e}")
+        print(e)
         print("Unable to fetch URL. Continuing.")
         return None
 
@@ -188,7 +189,7 @@ def extract_relations(args, sentence_candidate_pairs):
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences)
 
-def process_query(q, service):
+def process_query(q, service, engine_id):
     """
     This function processes a search query by calling the Google Custom Search Engine API
     and returns a list of search results containing the title, URL, and description.
@@ -245,7 +246,7 @@ def main():
         num_iteration += 1
 
         # process query
-        top_urls = process_query(args.q, service)
+        top_urls = process_query(args.q, service, args.google_engine_id)
 
         # process each url
         count = 0
