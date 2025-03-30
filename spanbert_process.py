@@ -39,5 +39,5 @@ def extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results,
     # print("\n")
     
     # Sort results
-    results = dict(sorted(results.items(), key=lambda item: item[1]))
+    results = dict(sorted(results.items(), key=lambda item: item[1], reverse=True))
     return results, total_extracted
