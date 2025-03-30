@@ -113,9 +113,6 @@ def extract_plain_text(url, max_length=10000):
     # Replace multiple whitespace characters (including newlines) with a single space
     raw_text = re.sub(r'\s+', ' ', raw_text).strip()
 
-    # Remove footnotes like "[ 1 ]", "[2]", etc.
-    raw_text = re.sub(r'\[\s*\d+\s*\]', '', raw_text)
-
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
         print(f"\tTrimming webpage content from {len(raw_text)} to 10000 characters")

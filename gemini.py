@@ -60,6 +60,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
             
         Now, given the following sentence, extract all instances of the '{relation}' relationship. 
         In this task, the subject should be a {subj_type} and the object should be a {obj_type}.
+        If the subject type is a PERSON, it should not be a pronoun like 'he', 'she', etc.
         Return your answer as a list of lists, where each inner list is formatted as ["Subject", "{relation}", "Object"] and all elements are strings.
         If no relation is found, only return an empty list and nothing else.
         Sentence: {sentence}
@@ -72,11 +73,14 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
             sentence=sentence
         )
 
+        # If we don't get a successful response, try again
         retries = 0
         max_retries = 5
-        initial_delay = 2  # start with a 2-second delay instead of 1
+
+        # To avoid resource exhausted errors
+        initial_delay = 2  # Start with a 2 second delay
         delay = initial_delay
-        max_delay = 30  # cap the delay to 30 seconds
+        max_delay = 30  # Cap the delay to 30 seconds
         
         while True:
             try:
@@ -85,9 +89,9 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
             except Exception as e:
                 if retries < max_retries:
                     print(f"Error encountered: {e}. Retrying after {delay} seconds...")
-                    time.sleep(delay + random.uniform(0, 1))  # add random jitter
+                    time.sleep(delay + random.uniform(0, 1))  # Add jitter
                     retries += 1
-                    delay = min(delay * 2, max_delay)  # exponential backoff with a max cap
+                    delay = min(delay * 2, max_delay)  # Exponential backoff with a max cap
                 else:
                     print("Max retries reached. Skipping this sentence.")
                     response_text = ""
