@@ -110,7 +110,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
         # print("Sentence: ", sentence)
         # print("Output: ", response_text)
 
-        parse_response_text(response_text, results)
+        parse_response_text(sentence, response_text, results)
 
         # Add a short pause between successful requests to reduce load
         time.sleep(2)
