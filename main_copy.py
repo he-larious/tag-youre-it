@@ -18,9 +18,9 @@ relation_map = {
 }
 internal_map = {
     1: "per:schools_attended",
-    2:"per:employee_of",
-    3:"per:cities_of_residence",
-    4:"org:top_members/employees"
+    2: "per:employee_of",
+    3: "per:cities_of_residence",
+    4: "org:top_members/employees"
 }
 
 entities_of_interest = ["ORGANIZATION", "PERSON", "LOCATION", "CITY", "STATE_OR_PROVINCE", "COUNTRY"]
@@ -164,7 +164,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
             # 1) updated results (in a list or dictionary)
             # 2) updated count of total extractions (including the duplicates)
             if args.extraction_method == 'spanbert':
-                relation_preds = spanbert.predict(candidate_pairs)
+                # relation_preds = spanbert.predict(candidate_pairs)
                 input_tokens = [token.text for token in sentence]
                 results, total_extracted = extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results, total_extracted, args.t, internal_map[args.r])
                 # relation_preds = spanbert.predict(candidate_pairs)
@@ -176,6 +176,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
         if (num_processed % 5 == 0 or num_processed == TOTAL):
             print(f"\tProcessed {num_processed} / {TOTAL} sentences")
 
+    print("\n")
     print(f"\tExtracted annotations for  {num_valid_sent}  out of total  {TOTAL}  sentences")
     print(f"\tRelations extracted from this website: {total_extracted} (Overall: {len(results)})")
     return results
@@ -287,12 +288,13 @@ def main():
                     updated = True
         else:
             #TODO: update this to print table based on a dict
+            # results = {(subj, obj): confidence, ..., (subj, obj): confidence} 
             relation = internal_map[args.r]
             print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-            for res in results: # res = (confidence,subj,obj)
-                print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
-                if f"{res[1]} {res[2]}" not in processed_queries:
-                    q = f"{res[1]} {res[2]}" # update q just in case
+            for res in results.keys(): # res = (confidence,subj,obj)
+                print(f" Confidence: {results[res]}\t\t| Subject: {res[0]}\t\t| Object: {res[1]}")
+                if f"{res[0]} {res[1]}" not in processed_queries:
+                    q = f"{res[0]} {res[1]}" # update q just in case
                     updated = True
 
         # if we reached k tuples
