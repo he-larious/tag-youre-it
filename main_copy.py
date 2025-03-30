@@ -299,7 +299,7 @@ def main():
 
         # if we reached k tuples
         if len(results) >= args.k:
-            print(f"Total # of iterations = {num_iteration+1}")
+            print(f"Total # of iterations = {num_iteration}")
             break
         
         # if there was no q
