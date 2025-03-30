@@ -58,7 +58,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
 
     for sentence in sentences:
         if processed_sentences != 0 and processed_sentences % 5 == 0:
-            print(f"Processed {processed_sentences} / {total_sentences} sentences\n")
+            print(f"\tProcessed {processed_sentences} / {total_sentences} sentences\n")
 
         prompt_text = """
         Below is an example of relation extraction for the '{relation}' relationship:
@@ -121,15 +121,14 @@ def parse_response_text(sentence, response_text, results):
         
     # Verify parsed result is a list and add each inner list as a tuple to the results set
     if isinstance(parsed_relations, list):
-        if len(parsed_relations) != 0:
-            print("\n\t\t=== Extracted Relation ===")
-            print("\t\tSentence: ", sentence)
-            print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
-            print("Adding to set of extracted relations")
-
         for relation in parsed_relations:
             # Ensure the relation is a list with exactly three items
             if isinstance(relation, list) and len(relation) == 3:
                 results.add(tuple(relation))
+            
+            print("\n\t\t=== Extracted Relation ===")
+            print("\t\tSentence: ", sentence)
+            print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
+            print("Adding to set of extracted relations")
     else:
         print("Parsed output is not a list:", parsed_relations)

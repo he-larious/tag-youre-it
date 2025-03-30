@@ -171,8 +171,8 @@ def extract_named_entities(raw_text, args):
         if len(candidate_pairs) > 0:
             sentence_candidate_pairs.append((sentence, candidate_pairs))
     
-    print("Processed each sentence to only keep sentences where each entity pair contains both required named entities for the relation of interest.")
-    print(f"Went from {num_sentences} total sentences to {len(sentence_candidate_pairs)} valid sentences.")
+    print("\tProcessed each sentence to only keep sentences where each entity pair contains both required named entities for the relation of interest.")
+    print(f"\tWent from {num_sentences} total sentences to {len(sentence_candidate_pairs)} valid sentences.")
 
     return sentence_candidate_pairs
 
