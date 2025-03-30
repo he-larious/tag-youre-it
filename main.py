@@ -144,8 +144,10 @@ def extract_named_entities(raw_text, args):
     # Iterate over each sentence and extract named entities
     
     print(f"\tExtracted {len(list(doc.sents))} sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...")
-    num_processed = 0
+    num_sentences = 0
+
     for sentence in doc.sents:
+        num_sentences += 1
         # print("\n\nProcessing sentence: {}".format(sentence))
         # print("Tokenized sentence: {}".format([token.text for token in sentence]))
 
@@ -170,7 +172,7 @@ def extract_named_entities(raw_text, args):
             sentence_candidate_pairs.append((sentence, candidate_pairs))
     
     print("Processed each sentence to only keep sentences where each entity pair contains both required named entities for the relation of interest.")
-    print(f"Went from {len(doc.sents)} total sentences to {len(sentence_candidate_pairs)} valid sentences.")
+    print(f"Went from {num_sentences} total sentences to {len(sentence_candidate_pairs)} valid sentences.")
 
     return sentence_candidate_pairs
 
