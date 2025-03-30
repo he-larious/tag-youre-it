@@ -1,3 +1,5 @@
+import random
+import time
 import google.generativeai as genai
 
 # Generate response to prompt
@@ -70,6 +72,27 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
             sentence=sentence
         )
 
-        response_text = get_gemini_completion(prompt_text)
+        retries = 0
+        max_retries = 5
+        delay = 1  # start with a 1-second delay
+
+        while True:
+            try:
+                response_text = get_gemini_completion(prompt_text)
+                break  # If successful, exit the retry loop
+            except Exception as e:
+                if retries < max_retries:
+                    print(f"Error encountered: {e}. Retrying after {delay} seconds...")
+                    time.sleep(delay + random.uniform(0, 0.5))  # add a small random jitter
+                    retries += 1
+                    delay *= 2  # Exponential backoff: double the delay
+                else:
+                    print("Max retries reached. Skipping this sentence.")
+                    response_text = ""
+                    break
+
         print("Sentence: ", sentence)
         print("Output: ", response_text)
+
+        # Add a short pause between successful requests to reduce load
+        time.sleep(0.5)
