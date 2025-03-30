@@ -116,13 +116,18 @@ def parse_response_text(sentence, response_text, results, total_extracted):
             for relation in parsed_relations:
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
-                    results.add(tuple(relation))
                     total_extracted += 1
+
+                    print("\n\t\t=== Extracted Relation ===")
+                    print("\t\tSentence: ", sentence)
+                    print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
+
+                    if relation not in results:
+                        results.add(tuple(relation))
+                        print("\t\tAdding to set of extracted relations\n")
+                    else:
+                        print("\t\tDuplicate. Ignoring this.\n")
                 
-                print("\n\t\t=== Extracted Relation ===")
-                print("\t\tSentence: ", sentence)
-                print(f"\t\tSubject: {relation[0]} ; Object: {relation[2]} ;")
-                print("\t\tAdding to set of extracted relations\n")
         else:
             print("Parsed output is not a list:", parsed_relations)
     except json.JSONDecodeError as e:
