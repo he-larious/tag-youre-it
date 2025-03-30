@@ -245,9 +245,9 @@ def main():
     if args.extraction_method == 'spanbert':
         results = spanbert_res
     else:
-        results = gemini_res
+        results = gemini_res 
     
-    # start iterations
+    # Start iterations
     service = build("customsearch", "v1", developerKey=args.google_search_api_key)
     num_iteration = 0
     q = args.q
