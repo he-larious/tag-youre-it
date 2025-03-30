@@ -300,6 +300,7 @@ def main():
         # if there was no q
         if not updated:
             print("ISE has 'stalled' before retrieving k high-confidence tuples")
+            break
 
     # NOTE: Testing things for now, can delete later
     # text = extract_plain_text('http://infolab.stanford.edu/~sergey/')
