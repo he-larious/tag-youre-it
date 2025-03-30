@@ -124,8 +124,6 @@ def extract_plain_text(url, max_length=10000):
     raw_text = re.sub('\t', ' ', raw_text)
     raw_text = re.sub('\n', ' ', raw_text)
     raw_text = re.sub(' +', ' ', raw_text)
-    raw_text = re.sub(u'\xa0', ' ', raw_text)
-    raw_text = re.sub('\u200b', '', raw_text)
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
