@@ -57,9 +57,6 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
     processed_sentences = 0
 
     for sentence in sentences:
-        if processed_sentences != 0 and processed_sentences % 5 == 0:
-            print(f"\tProcessed {processed_sentences} / {total_sentences} sentences\n")
-
         prompt_text = """
         Below is an example of relation extraction for the '{relation}' relationship:
         Example Output: {relation_output}
@@ -106,6 +103,8 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences, results
                     break
         
         processed_sentences += 1
+        if (processed_sentences != 0 and processed_sentences % 5 == 0) or processed_sentences == total_sentences:
+            print(f"\tProcessed {processed_sentences} / {total_sentences} sentences\n")
 
         # print("Sentence: ", sentence)
         # print("Output: ", response_text)
