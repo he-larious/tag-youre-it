@@ -170,7 +170,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
                 # relation_preds = spanbert.predict(candidate_pairs)
                 # results, total_extracted = [], 0
             else:
-                results, total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, total_extracted) 
+                total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, 0) 
         
         num_processed += 1
         if (num_processed % 5 == 0):
@@ -278,16 +278,11 @@ def main():
             # Extract relations
             results = extract_relations(args, results, doc, requirement, spanbert)
 
-            # extract_relations() will only return all results for one url
-            # Need to keep track of all tuple results
-            if args.extraction_method == 'gemini':
-                gemini_res = gemini_res.union(results)
-
         updated = False
         if args.extraction_method == 'gemini':
             relation = relation_map[args.r]
             print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-            for res in gemini_res: # res = (subj, relation_type, obj)
+            for res in results: # res = (subj, relation_type, obj)
                 print(f"Subject: {res[0]}\t\t| Object: {res[2]}")
                 if f"{res[0]} {res[2]}" not in processed_queries:
                     q = f"{res[0]} {res[2]}" # update q just in case

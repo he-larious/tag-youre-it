@@ -101,19 +101,15 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     # print("Sentence: ", sentence)
     # print("Output: ", response_text)
 
-    has_valid_result = parse_response_text(sentence, response_text, results)
-    if has_valid_result:
-        total_extracted += 1
+    total_extracted = parse_response_text(sentence, response_text, results, total_extracted)
 
     # Add a short pause between successful requests to reduce load
     time.sleep(2)
 
-    return results, total_extracted
+    return total_extracted
 
 
-def parse_response_text(sentence, response_text, results):
-    has_valid_result = False
-
+def parse_response_text(sentence, response_text, results, total_extracted):
     try:
         parsed_relations = json.loads(response_text)
             
@@ -123,7 +119,7 @@ def parse_response_text(sentence, response_text, results):
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
                     results.add(tuple(relation))
-                    has_valid_result = True
+                    total_extracted += 1
                 
                 print("\n\t\t=== Extracted Relation ===")
                 print("\t\tSentence: ", sentence)
@@ -134,6 +130,6 @@ def parse_response_text(sentence, response_text, results):
     except json.JSONDecodeError as e:
         print("Error parsing JSON:", e)
         print("Raw response_text:", response_text)
-        return False
+        return
     
-    return has_valid_result
+    return total_extracted
