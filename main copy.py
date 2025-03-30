@@ -99,8 +99,9 @@ def extract_plain_text(url, max_length=10000):
     Retrieve the webpage. Skip if there's an error. Extract plain text using BeautifulSoup.
     Truncate text to max_length if necessary.
     """
+    headers = {'User-Agent': 'Mozilla/5.0'}
     try:
-        response = requests.get(url, timeout=10)
+        response = requests.get(url, timeout=10, headers=headers)
         response.raise_for_status()
     except Exception as e:
         # print(f"Skipping URL {url} due to retrieval error: {e}")
