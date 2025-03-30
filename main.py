@@ -103,8 +103,8 @@ def extract_plain_text(url, max_length=10000):
     # Parse the HTML file
     soup = BeautifulSoup(response.text, "html.parser")
 
-    # Remove unwanted tags (<script> and <style>)
-    for tag in soup(["script", "style"]):
+    # Remove common unwanted tags
+    for tag in soup.find_all(["script", "style", "header", "footer", "nav", "aside"]):
         tag.decompose()
 
     # Extract plain text from the HTML
