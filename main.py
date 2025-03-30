@@ -270,13 +270,13 @@ def main():
                 print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
                 for res in results: # res = (subj,obj)
                     print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
-                    print(f"Total # of iterations = {num_iteration-1}")
-                    print(f"Total # of iterations = {num_iteration-1}")
+                    
             else:
                 relation = internal_map[args.r]
                 print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
                 for res in results: # res = (confidence,subj,obj)
                     print(f" Confidence: {res[0]}\t\t| Subject: {res[1]}\t\t| Object: {res[2]}")
+            print(f"Total # of iterations = {num_iteration+1}")
             break
 
     # NOTE: Testing things for now, can delete later
