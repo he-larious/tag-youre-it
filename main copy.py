@@ -241,7 +241,10 @@ def main():
         url = top_urls[1]
         print(requests.get(url, timeout=10))
         print(requests.get(url.strip(), timeout=10))
-        print(requests.get(url.strip(), timeout=10).text)
+        print(type(url))
+        print(url)
+        print(requests.get(str(url), timeout=10))
+        # print(requests.get(url.strip(), timeout=10).text)
         # print(top_urls[1])
         # print(top_urls)
         url = "http://www.microsoft.com/"
