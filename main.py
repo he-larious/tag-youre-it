@@ -196,8 +196,6 @@ def extract_relations(args, sentence_candidate_pairs, results):
             sentences.append(sentence)
 
         extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentences, results)
-        print(results)
-        print(len(results))
         return results
 
 def process_query(q, service, engine_id):
@@ -293,10 +291,10 @@ def main():
         if args.extraction_method == 'gemini':
             relation = relation_map[args.r]
             print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
-            for res in results: # res = (subj,obj)
-                print(f"Subject: {res[0]}\t\t| Object: {res[1]}")
-                if f"{res[0]} {res[1]}" not in processed_queries:
-                    q = f"{res[0]} {res[1]}" # update q just in case
+            for res in results: # res = (subj, relation_type, obj)
+                print(f"Subject: {res[0]}\t\t| Object: {res[2]}")
+                if f"{res[0]} {res[2]}" not in processed_queries:
+                    q = f"{res[0]} {res[2]}" # update q just in case
                     updated = True
         else:
             relation = internal_map[args.r]
