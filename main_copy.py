@@ -124,6 +124,8 @@ def extract_plain_text(url, max_length=10000):
     raw_text = re.sub('\t', ' ', raw_text)
     raw_text = re.sub('\n', ' ', raw_text)
     raw_text = re.sub(' +', ' ', raw_text)
+    raw_text = re.sub(u'\xa0', ' ', raw_text)
+    raw_text = re.sub('\u200b', '', raw_text)
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
@@ -136,8 +138,8 @@ def extract_plain_text(url, max_length=10000):
 # NOTE: expecting set() result type for gemini, expecting {} result type for spanBERT
 def extract_relations(args, results, doc, requirement, spanbert):
     num_processed = 0
-    num_valid_sent = 0
-    total_extracted = 0
+    num_extraced_sentences = 0
+    num_extracted_tuples = 0
     curr_len = len(results)
     TOTAL = len(list(doc.sents))
 
@@ -159,26 +161,25 @@ def extract_relations(args, results, doc, requirement, spanbert):
                 candidate_pairs.append(pair2)
         
         if len(candidate_pairs) > 0:
-            num_valid_sent += 1
             # TODO: Each method returns
             # 1) updated results (in a list or dictionary)
             # 2) updated count of total extractions (including the duplicates)
             if args.extraction_method == 'spanbert':
                 # relation_preds = spanbert.predict(candidate_pairs)
                 input_tokens = [token.text for token in sentence]
-                results, total_extracted = extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results, total_extracted, args.t, internal_map[args.r])
+                results, num_extracted_tuples = extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results, num_extracted_tuples, args.t, internal_map[args.r])
                 # relation_preds = spanbert.predict(candidate_pairs)
                 # results, total_extracted = [], 0
             else:
-                total_extracted = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, total_extracted) 
+                num_extracted_tuples, num_extraced_sentences = extract_relations_gemini(args.google_gemini_api_key, relation_map[args.r], sentence, results, num_extracted_tuples, num_extraced_sentences) 
         
         num_processed += 1
         if (num_processed % 5 == 0):
             print(f"\tProcessed {num_processed} / {TOTAL} sentences")
 
     print("\n")
-    print(f"\tExtracted annotations for  {num_valid_sent}  out of total  {TOTAL}  sentences")
-    print(f"\tRelations extracted from this website: {len(results)-curr_len} (Overall: {total_extracted})")
+    print(f"\tExtracted annotations for  {num_extraced_sentences}  out of total  {TOTAL}  sentences")
+    print(f"\tRelations extracted from this website: {len(results)-curr_len} (Overall: {num_extracted_tuples})")
     print("\n")
     return results
 

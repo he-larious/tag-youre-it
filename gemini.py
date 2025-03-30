@@ -50,7 +50,7 @@ def get_gemini_completion(prompt, model_name="gemini-2.0-flash", max_tokens=200,
     return response.text.strip() if response.text else "No response received"
 
 
-def extract_relations_gemini(gemini_api_key, target_relation, sentence, results, total_extracted):
+def extract_relations_gemini(gemini_api_key, target_relation, sentence, results, num_extracted_tuples, num_extracted_sentences):
     genai.configure(api_key=gemini_api_key)
 
     prompt_text = """
@@ -99,24 +99,27 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     # print("Sentence: ", sentence)
     # print("Output: ", response_text)
 
-    total_extracted = parse_response_text(sentence, response_text, results, total_extracted)
+    num_extracted_tuples, num_extracted_sentences = parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences)
 
     # Add a short pause between successful requests to reduce load
     time.sleep(2)
 
-    return total_extracted
+    return num_extracted_tuples, num_extracted_sentences
 
 
-def parse_response_text(sentence, response_text, results, total_extracted):
+def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
     try:
         parsed_relations = json.loads(response_text)
             
         # Verify parsed result is a list and add each inner list as a tuple to the results set
         if isinstance(parsed_relations, list):
+            if len(parsed_relations) != 0:
+                num_extracted_sentences += 1
+            
             for relation in parsed_relations:
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
-                    total_extracted += 1
+                    num_extracted_tuples += 1
 
                     print("\n\t\t=== Extracted Relation ===")
                     print("\t\tSentence: ", sentence)
@@ -135,4 +138,4 @@ def parse_response_text(sentence, response_text, results, total_extracted):
         print("Raw response_text:", response_text)
         return
     
-    return total_extracted
+    return num_extracted_tuples, num_extracted_sentences
