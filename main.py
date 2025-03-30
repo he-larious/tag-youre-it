@@ -112,6 +112,7 @@ def extract_plain_text(url, max_length=10000):
 
     # Replace multiple whitespace characters (including newlines) with a single space
     raw_text = re.sub(r'\s+', ' ', text).strip()
+    print(raw_text)
 
     # Truncate text if it's longer than max_length characters
     if len(raw_text) > max_length:
