@@ -74,18 +74,20 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
 
         retries = 0
         max_retries = 5
-        delay = 1  # start with a 1-second delay
-
+        initial_delay = 2  # start with a 2-second delay instead of 1
+        delay = initial_delay
+        max_delay = 30  # cap the delay to 30 seconds
+        
         while True:
             try:
                 response_text = get_gemini_completion(prompt_text)
-                break  # If successful, exit the retry loop
+                break  # Request succeeded, exit the retry loop
             except Exception as e:
                 if retries < max_retries:
                     print(f"Error encountered: {e}. Retrying after {delay} seconds...")
-                    time.sleep(delay + random.uniform(0, 0.5))  # add a small random jitter
+                    time.sleep(delay + random.uniform(0, 1))  # add random jitter
                     retries += 1
-                    delay *= 2  # Exponential backoff: double the delay
+                    delay = min(delay * 2, max_delay)  # exponential backoff with a max cap
                 else:
                     print("Max retries reached. Skipping this sentence.")
                     response_text = ""
@@ -95,4 +97,4 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentences):
         print("Output: ", response_text)
 
         # Add a short pause between successful requests to reduce load
-        time.sleep(0.5)
+        time.sleep(2)
