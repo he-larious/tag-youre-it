@@ -1,3 +1,4 @@
+import ast
 import json
 import random
 import time
@@ -6,7 +7,7 @@ import google.generativeai as genai
 relation_requirements = {
     "Schools_Attended": {
         "subj": "PERSON", 
-        "obj": "SCHOOL or UNIVERSITY",
+        "obj": "SCHOOL",
         "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
         "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University.",
     },
@@ -60,7 +61,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
             
     Now, given the following sentence, extract all instances of the '{relation}' relationship. 
     Return your answer as a list of lists, where each inner array is formatted as ["Subject: {subj_type}", "{relation}", "Object: {obj_type}"].
-    If either the subject or object cannot be determined from the sentence, do not include it in list.
+    If either the subject or object cannot be determined from the sentence, do not include it in the list.
     If no relation is found, return an empty array [].
     Do not include any additional text or markdown formatting.
     Sentence: {sentence}
@@ -103,14 +104,18 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     num_extracted_tuples, num_extracted_sentences = parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences)
 
     # Add a short pause between successful requests to reduce load
-    time.sleep(2)
+    time.sleep(4)
 
     return num_extracted_tuples, num_extracted_sentences
 
 
 def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
     try:
-        parsed_relations = json.loads(response_text)
+        try:
+            parsed_relations = json.loads(response_text)
+        except json.JSONDecodeError:
+            # Try using ast.literal_eval() as a fallback if josn.loads() doesn't work
+            parsed_relations = ast.literal_eval(response_text)
             
         # Verify parsed result is a list and add each inner list as a tuple to the results set
         if isinstance(parsed_relations, list):
