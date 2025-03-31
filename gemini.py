@@ -110,11 +110,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
 
 def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
     try:
-        try:
-            parsed_relations = json.loads(response_text)
-        except json.JSONDecodeError:
-            # Try using ast.literal_eval() as a fallback if josn.loads() doesn't work
-            parsed_relations = ast.literal_eval(response_text)
+        parsed_relations = json.loads(response_text)
             
         # Verify parsed result is a list and add each inner list as a tuple to the results set
         if isinstance(parsed_relations, list):
