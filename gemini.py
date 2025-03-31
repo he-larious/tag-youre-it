@@ -60,6 +60,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
             
     Now, given the following sentence, extract all instances of the '{relation}' relationship. 
     Return your answer as a list of lists, where each inner array is formatted as ["Subject: {subj_type}", "{relation}", "Object: {obj_type}"].
+    If either the subject or object cannot be determined from the sentence, do not include it in list.
     If no relation is found, return an empty array [].
     Do not include any additional text or markdown formatting.
     Sentence: {sentence}
