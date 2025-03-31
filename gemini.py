@@ -109,8 +109,13 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
 
 
 def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
+    # Clean the response text in case Gemini doesn't return a list of lists in the right form
+    last_index = response_text.rfind(']')
+    cleaned_text = response_text[:last_index+1]
+    cleaned_text += ']'
+
     try:
-        parsed_relations = json.loads(response_text)
+        parsed_relations = json.loads(cleaned_text)
             
         # Verify parsed result is a list
         if isinstance(parsed_relations, list):
@@ -137,7 +142,7 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
             return num_extracted_tuples, num_extracted_sentences
     except json.JSONDecodeError as e:
         print("Error parsing JSON:", e)
-        print("Raw response_text:", response_text)
+        print("cleaned_text:", cleaned_text)
         return num_extracted_tuples, num_extracted_sentences
     
     return num_extracted_tuples, num_extracted_sentences
