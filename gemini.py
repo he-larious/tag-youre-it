@@ -74,7 +74,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
         relation_sentence=relation_requirements[target_relation]["sentence"],
         subj_type=relation_requirements[target_relation]["subj"],
         obj_type=relation_requirements[target_relation]["obj"],
-        relation_special=relation_requirements[target_relation]["special"]
+        relation_special=relation_requirements[target_relation]["special"],
         sentence=sentence
     )
 
