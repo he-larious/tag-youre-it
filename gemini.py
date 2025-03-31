@@ -103,7 +103,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     num_extracted_tuples, num_extracted_sentences = parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences)
 
     # Add a short pause between successful requests to reduce load
-    time.sleep(4)
+    time.sleep(3)
 
     return num_extracted_tuples, num_extracted_sentences
 
