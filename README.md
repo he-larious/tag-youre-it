@@ -22,6 +22,13 @@ python3 main.py [-spanbert|-gemini] <google api key> <google engine id> <google 
 
 
 ### Externel Libraries
+1. **argparse** - used to defines required command line inputs (like API keys, relation type, threshold, etc.) and checks that certain inputs (such as the confidence threshold and the number of tuples) are within valid ranges.
+2. **re** - used to clean up the extracted text by removing redundant whitespace after HTML parsing.
+3. **BeautifulSoup** - used to extract plain text from a fetched HTML webpage by stripping out unwanted tags (such as script, style, etc.)
+4. **requests** - used to retrieve webpages based on URLs provided by the Google Custom Search API.
+5. **spacy** - used to load a pre-trained language model for tasks such as tokenization, sentence segmentation, and named entity recognition.
+6. **googleapiclient.discovery** - used to interact with the Google Custom Search API by performing search queries and retrieving relevant URLs.
+7. **google.generativeai** - used to interact with Google’s Gemini model by sending prompts and receiving generated responses.
 
 ## Step 3 Description
 For each unprocessed URL, we start by calling the `extract_plain_text()` function. It will:
