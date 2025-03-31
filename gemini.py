@@ -100,7 +100,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     # print("Sentence: ", sentence)
     # print("Output: ", response_text)
 
-    num_extracted_tuples, num_extracted_sentences = parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences)
+    num_extracted_tuples, num_extracted_sentences = parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences, target_relation)
 
     # Add a short pause between successful requests to reduce load
     time.sleep(3)
@@ -108,7 +108,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     return num_extracted_tuples, num_extracted_sentences
 
 
-def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
+def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences, target_relation):
     # Clean the response text in case Gemini doesn't return a list of lists in the right form
     last_index = response_text.rfind(']')
 
@@ -130,6 +130,15 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
                     num_extracted_tuples += 1
+
+                    # A little tuple cleaning
+                    # Gemini sometimes returns the subj as 'Subject: PERSON' for example or the
+                    # obj as 'Object: SCHOOL' for example when it can't identify one of the relations
+                    # instead of just an empty list
+                    if relation[0] == f'Subject: {relation_requirements[target_relation]['subj']}':
+                        continue
+                    if relation[2] == f'Object: {relation_requirements[target_relation]['obj']}':
+                        continue
 
                     print("\n\t\t=== Extracted Relation ===")
                     print("\t\tSentence: ", sentence)
