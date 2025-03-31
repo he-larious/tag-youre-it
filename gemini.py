@@ -112,7 +112,7 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
     try:
         parsed_relations = json.loads(response_text)
             
-        # Verify parsed result is a list and add each inner list as a tuple to the results set
+        # Verify parsed result is a list
         if isinstance(parsed_relations, list):
             if len(parsed_relations) != 0:
                 num_extracted_sentences += 1
