@@ -9,7 +9,7 @@ relation_requirements = {
         "obj": "ORGANIZATION",
         "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
         "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University.",
-        "special": "Please ensure that the subject is a PERSON's name and not a pronoun."
+        "special": "Please ensure that the subject is a PERSON's name and not a pronoun and the object is an ORGANIZATION name."
     },
     "Work_For": {
         "subj": "PERSON", 
