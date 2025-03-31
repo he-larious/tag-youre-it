@@ -6,31 +6,27 @@ import google.generativeai as genai
 relation_requirements = {
     "Schools_Attended": {
         "subj": "PERSON", 
-        "obj": "ORGANIZATION",
+        "obj": "SCHOOL or UNIVERSITY",
         "output": '["Jeff Bezos", "Schools_Attended", "Princeton University"]',
         "sentence": "Jeff Bezos, known for his business acumen, attended Princeton University.",
-        "special": "Please ensure that the subject is a PERSON's name and not a pronoun and the object is a school name."
     },
     "Work_For": {
         "subj": "PERSON", 
-        "obj": "ORGANIZATION",
+        "obj": "COMPANY",
         "output": '["Alec Radford", "Work_For", "OpenAI"]',
         "sentence": "Alec Radford, an experienced researcher, recently joined OpenAI as a lead scientist.",
-        "special": "Please ensure that the subject is a PERSON's name and not a pronoun."
     },
     "Live_In": {
         "subj": "PERSON", 
         "obj": "LOCATION or CITY or STATE_OR_PROVINCE or COUNTRY",
         "output": '["Mariah Carey", "Live_In", "New York City"]',
         "sentence": "Mariah Carey, a celebrated singer, lives in New York City.",
-        "special": "Please ensure that the subject is a PERSON's name and not a pronoun."
     },
     "Top_Member_Employees": {
-        "subj": "ORGANIZATION", 
+        "subj": "COMPANY", 
         "obj": "PERSON",
         "output": '["Nvidia", "Top_Member_Employees", "Jensen Huang"]',
         "sentence": "Nvidia, a leading tech company, counts Jensen Huang among its top executives.",
-        "special": "Please ensure that the object is a PERSON's name and not a pronoun."
     }
 }
 
@@ -64,7 +60,6 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
             
     Now, given the following sentence, extract all instances of the '{relation}' relationship. 
     Return your answer as a list of lists, where each inner array is formatted as ["Subject: {subj_type}", "{relation}", "Object: {obj_type}"].
-    {relation_special}
     If no relation is found, return an empty array [].
     Do not include any additional text or markdown formatting.
     Sentence: {sentence}
@@ -74,7 +69,6 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
         relation_sentence=relation_requirements[target_relation]["sentence"],
         subj_type=relation_requirements[target_relation]["subj"],
         obj_type=relation_requirements[target_relation]["obj"],
-        relation_special=relation_requirements[target_relation]["special"],
         sentence=sentence
     )
 
