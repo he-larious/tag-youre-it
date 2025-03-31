@@ -129,8 +129,6 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
             for relation in parsed_relations:
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
-                    num_extracted_tuples += 1
-
                     # A little tuple cleaning
                     # Gemini sometimes returns the subj as 'Subject: PERSON' for example or the
                     # obj as 'Object: SCHOOL' for example when it can't identify one of the relations
@@ -139,6 +137,8 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
                         continue
                     if relation[2] == f"Object: {relation_requirements[target_relation]['obj']}":
                         continue
+
+                    num_extracted_tuples += 1
 
                     print("\n\t\t=== Extracted Relation ===")
                     print("\t\tSentence: ", sentence)
