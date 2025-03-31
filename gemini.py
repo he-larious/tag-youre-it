@@ -135,9 +135,9 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
                     # Gemini sometimes returns the subj as 'Subject: PERSON' for example or the
                     # obj as 'Object: SCHOOL' for example when it can't identify one of the relations
                     # instead of just an empty list
-                    if relation[0] == f'Subject: {relation_requirements[target_relation]['subj']}':
+                    if relation[0] == f"Subject: {relation_requirements[target_relation]['subj']}":
                         continue
-                    if relation[2] == f'Object: {relation_requirements[target_relation]['obj']}':
+                    if relation[2] == f"Object: {relation_requirements[target_relation]['obj']}":
                         continue
 
                     print("\n\t\t=== Extracted Relation ===")
