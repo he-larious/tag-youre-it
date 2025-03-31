@@ -111,8 +111,12 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
 def parse_response_text(sentence, response_text, results, num_extracted_tuples, num_extracted_sentences):
     # Clean the response text in case Gemini doesn't return a list of lists in the right form
     last_index = response_text.rfind(']')
-    cleaned_text = response_text[:last_index+1]
-    cleaned_text += ']'
+
+    if last_index == len(response_text) - 1:
+        cleaned_text = response_text
+    else:
+        cleaned_text = response_text[:last_index+1]
+        cleaned_text += ']'
 
     try:
         parsed_relations = json.loads(cleaned_text)
