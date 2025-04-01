@@ -163,7 +163,7 @@ def extract_relations(args, results, doc, requirement, spanbert):
             # 1) updated results (in a list or dictionary)
             # 2) updated count of total extractions (including the duplicates)
             if args.extraction_method == 'spanbert':
-                # relation_preds = spanbert.predict(candidate_pairs)
+                num_extraced_sentences += 1
                 input_tokens = [token.text for token in sentence]
                 results, num_extracted_tuples = extract_relations_spanbert(spanbert, candidate_pairs, input_tokens, results, num_extracted_tuples, args.t, internal_map[args.r])
                 # relation_preds = spanbert.predict(candidate_pairs)
@@ -290,7 +290,6 @@ def main():
                     q = f"{res[0]} {res[2]}" # update q just in case
                     updated = True
         else:
-            #TODO: update this to print table based on a dict
             # results = {(subj, obj): confidence, ..., (subj, obj): confidence} 
             relation = internal_map[args.r]
             print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
