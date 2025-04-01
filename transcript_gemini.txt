@@ -1,0 +1,650 @@
+____
+Parameters:
+Client key      = XXXXXX
+Engine key      = XXXXXX
+Gemini key      = XXXXXX
+Method      = gemini
+Relation        = Work_For
+Threshold       = 0.0
+Query           = bill gates microsoft
+# of Tuples     = 10
+Loading necessary libraries; This should take a minute or so ...)
+=========== Iteration: 0 - Query: bill gates microsoft ===========
+
+
+URL ( 1 / 10): https://en.wikipedia.org/wiki/Bill_Gates
+        Fetching text from url ...
+        Trimming webpage content from 144974 to 10000 characters
+        Webpage length (num characters): 10000
+        Annotating the webpage using spacy...
+        Extracted 77 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+                === Extracted Relation ===
+                Sentence:  Bill Gates - Wikipedia Jump to content From Wikipedia, the free encyclopedia American businessman and philanthropist (born 1955)
+                Subject: Bill Gates ; Object: Wikipedia ;
+                Adding to set of extracted relations
+
+        Processed 5 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Paul Allen ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Gates Foundation ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Cascade Investment ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Branded Entertainment Network ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: TerraPower ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Breakthrough Energy ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Gates Ventures ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Occupations Businessman philanthropist computer programmer writer Years active 1972–present Known for Pioneer of the personal computer revolution with Paul Allen Co-founding of Microsoft and Gates Foundation Title See list Chair of the Gates Foundation Chairman and founder of Cascade Investment Chairman and founder of Branded Entertainment Network Chairman and co-founder of TerraPower Founder of Breakthrough Energy Founder of Gates Ventures Technology advisor of Microsoft Spouse Melinda French ​ ​ ( m. 1994; div. 2021) ​
+                Subject: Bill Gates ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 10 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  A pioneer of the microcomputer revolution of the 1970s and 1980s, he co-founded the software company Microsoft in 1975 with his childhood friend Paul Allen .
+                Subject: Paul Allen ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 15 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  He stepped down as chairman of the board of directors in 2014 and became technology adviser to CEO Satya Nadella and other Microsoft leaders, a position he still holds.
+                Subject: Satya Nadella ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 20 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  Gates is founder and chairman of several other companies, including BEN , Cascade Investment , TerraPower , Gates Ventures , and Breakthrough Energy .
+                Subject: Bill Gates ; Object: BEN ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Gates is founder and chairman of several other companies, including BEN , Cascade Investment , TerraPower , Gates Ventures , and Breakthrough Energy .
+                Subject: Bill Gates ; Object: Cascade Investment ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Gates is founder and chairman of several other companies, including BEN , Cascade Investment , TerraPower , Gates Ventures , and Breakthrough Energy .
+                Subject: Bill Gates ; Object: TerraPower ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Gates is founder and chairman of several other companies, including BEN , Cascade Investment , TerraPower , Gates Ventures , and Breakthrough Energy .
+                Subject: Bill Gates ; Object: Gates Ventures ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Gates is founder and chairman of several other companies, including BEN , Cascade Investment , TerraPower , Gates Ventures , and Breakthrough Energy .
+                Subject: Bill Gates ; Object: Breakthrough Energy ;
+                Duplicate. Ignoring this.
+
+        Processed 25 / 77 sentences
+        Processed 30 / 77 sentences
+        Processed 35 / 77 sentences
+        Processed 40 / 77 sentences
+        Processed 45 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  One of these systems was a PDP-10 belonging to Computer Center Corporation (CCC) which banned Gates, Paul Allen , Ric Weiland , and Gates's best friend and first business partner Kent Evans for the summer after it caught them exploiting bugs in the operating system to obtain free computer time.
+                Subject: Bill Gates ; Object: Computer Center Corporation ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  One of these systems was a PDP-10 belonging to Computer Center Corporation (CCC) which banned Gates, Paul Allen , Ric Weiland , and Gates's best friend and first business partner Kent Evans for the summer after it caught them exploiting bugs in the operating system to obtain free computer time.
+                Subject: Paul Allen ; Object: Computer Center Corporation ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  One of these systems was a PDP-10 belonging to Computer Center Corporation (CCC) which banned Gates, Paul Allen , Ric Weiland , and Gates's best friend and first business partner Kent Evans for the summer after it caught them exploiting bugs in the operating system to obtain free computer time.
+                Subject: Ric Weiland ; Object: Computer Center Corporation ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  One of these systems was a PDP-10 belonging to Computer Center Corporation (CCC) which banned Gates, Paul Allen , Ric Weiland , and Gates's best friend and first business partner Kent Evans for the summer after it caught them exploiting bugs in the operating system to obtain free computer time.
+                Subject: Kent Evans ; Object: Computer Center Corporation ;
+                Adding to set of extracted relations
+
+        Processed 50 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  The following year, a Lakeside teacher enlisted Gates and Evans to automate the school's class-scheduling system, providing them computer time and royalties in return.
+                Subject: Gates ; Object: Lakeside ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  The following year, a Lakeside teacher enlisted Gates and Evans to automate the school's class-scheduling system, providing them computer time and royalties in return.
+                Subject: Evans ; Object: Lakeside ;
+                Adding to set of extracted relations
+
+        Processed 55 / 77 sentences
+        Processed 60 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  [ 25 ] While at Harvard, he met fellow student and future Microsoft CEO Steve Ballmer .
+                Subject: Steve Ballmer ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 65 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  Years later, Ballmer succeeded Gates as Microsoft's CEO and maintained that position from 2000 until his resignation in 2014.
+                Subject: Ballmer ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Years later, Ballmer succeeded Gates as Microsoft's CEO and maintained that position from 2000 until his resignation in 2014.
+                Subject: Gates ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 70 / 77 sentences
+
+                === Extracted Relation ===
+                Sentence:  [ 30 ] Gates remained in contact with Paul Allen and joined him at Honeywell during the summer of 1974.
+                Subject: Bill Gates ; Object: Honeywell ;
+                Adding to set of extracted relations
+
+        Processed 75 / 77 sentences
+
+
+        Extracted annotations for  10  out of total  77  sentences
+        Relations extracted from this website: 21 (Overall: 26)
+
+
+URL ( 2 / 10): https://www.instagram.com/thisisbillgates/?hl=en
+        Fetching text from url ...
+429 Client Error: Too Many Requests for url: https://www.instagram.com/accounts/login/?next=https%3A%2F%2Fwww.instagram.com%2Fthisisbillgates%2F%3Fhl%3Den&is_from_rle
+Unable to fetch URL. Continuing.
+URL ( 3 / 10): https://x.com/billgates
+        Fetching text from url ...
+400 Client Error: Bad Request for url: https://x.com/billgates
+Unable to fetch URL. Continuing.
+URL ( 4 / 10): https://www.youtube.com/billgates
+        Fetching text from url ...
+        Webpage length (num characters): 185
+        Annotating the webpage using spacy...
+        Extracted 3 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+
+        Extracted annotations for  0  out of total  3  sentences
+        Relations extracted from this website: 0 (Overall: 0)
+
+
+URL ( 5 / 10): https://www.gatesnotes.com/
+        Fetching text from url ...
+        Webpage length (num characters): 0
+        Annotating the webpage using spacy...
+        Extracted 0 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+
+        Extracted annotations for  0  out of total  0  sentences
+        Relations extracted from this website: 0 (Overall: 0)
+
+
+URL ( 6 / 10): https://news.microsoft.com/2020/03/13/microsoft-announces-change-to-its-board-of-directors/
+        Fetching text from url ...
+        Webpage length (num characters): 3801
+        Annotating the webpage using spacy...
+        Extracted 20 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+                === Extracted Relation ===
+                Sentence:  REDMOND, Wash. — March 13, 2020 — Microsoft Corp. today announced that Co-Founder and Technology Advisor Bill Gates stepped down from the company’s Board of Directors to dedicate more time to his philanthropic priorities including global health, development, education, and his increasing engagement in tackling climate change.
+                Subject: Bill Gates ; Object: Microsoft Corp. ;
+                Adding to set of extracted relations
+
+        Processed 5 / 20 sentences
+        Processed 10 / 20 sentences
+
+                === Extracted Relation ===
+                Sentence:  I am grateful for Bill’s friendship and look forward to continuing to work alongside him to realize our mission to empower every person and every organization on the planet to achieve more,” said Microsoft CEO Satya Nadella.
+                Subject: Satya Nadella ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  “On behalf of our shareholders and the Board, I want to express my deep appreciation to Bill for all his contributions to Microsoft.
+                Subject: Bill ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  He leaves an enduring legacy of curiosity and insight that serves as an inspiration for us all,” said John W. Thompson, Microsoft independent board chair.
+                Subject: John W. Thompson ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: John W. Thompson ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Reid Hoffman ; Object: Greylock Partners ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Hugh Johnston ; Object: PepsiCo ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Teri L. List-Stoll ; Object: Gap, Inc. ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Satya Nadella ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Sandra E. Peterson ; Object: Clayton, Dubilier & Rice ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Penny Pritzker ; Object: PSP Partners ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Charles W. Scharf ; Object: Wells Fargo & Co. ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Arne Sorenson ; Object: Marriott International Inc. ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: John W. Stanton ; Object: Trilogy Equity Partners ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  With Gates’ departure, the Board will consist of 12 members, including John W. Thompson, Microsoft independent chair; Reid Hoffman, partner at Greylock Partners; Hugh Johnston, vice chairman and chief financial officer of PepsiCo; Teri L. List-Stoll, executive vice president and chief financial officer of Gap, Inc.; Satya Nadella, chief executive officer of Microsoft; Sandra E. Peterson, operating partner, Clayton, Dubilier & Rice; Penny Pritzker, founder and chairman, PSP Partners; Charles W. Scharf, chief executive officer and president of Wells Fargo & Co.; Arne Sorenson, president and CEO, Marriott International Inc.; John W. Stanton, chairman of Trilogy Equity Partners; Emma Walmsley, CEO of GlaxoSmithKline plc (GSK); and Padmasree Warrior, founder, CEO and president, Fable Group Inc.
+                Subject: Emma Walmsley ; Object: GlaxoSmithKline plc ;
+                Adding to set of extracted relations
+
+        Processed 15 / 20 sentences
+
+                === Extracted Relation ===
+                Sentence:  quarterly dividend Microsoft Dragon Copilot provides the healthcare industry’s first unified voice AI assistant that enables clinicians to streamline clinical documentation, surface information and automate tasks Anduril and Microsoft partner to advance Integrated Visual Augmentation System (IVAS) program for the U.S. Army Governor Murphy and Princeton University President Eisgruber announce Microsoft and CoreWeave as founding partners in NJ AI Hub Follow us: Facebook X Threads Check us out on RSS Share this page:
+                Subject: Anduril ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 20 / 20 sentences
+
+
+        Extracted annotations for  6  out of total  20  sentences
+        Relations extracted from this website: 13 (Overall: 16)
+
+
+URL ( 7 / 10): https://www.linkedin.com/in/williamhgates
+        Fetching text from url ...
+        Trimming webpage content from 11781 to 10000 characters
+        Webpage length (num characters): 10000
+        Annotating the webpage using spacy...
+        Extracted 82 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+                === Extracted Relation ===
+                Sentence:  Bill Gates - Co-chair - Gates Foundation | LinkedIn Skip to main content Sign in to view Bill’s full profile Sign in Welcome back Email or phone Password Show Forgot password?
+                Subject: Bill Gates ; Object: Gates Foundation ;
+                Duplicate. Ignoring this.
+
+        Processed 5 / 82 sentences
+        Processed 10 / 82 sentences
+
+                === Extracted Relation ===
+                Sentence:  Chair, Gates Foundation and Founder, Breakthrough Energy Seattle, Washington, United States Contact Info Sign in to view Bill’s full profile Sign in Welcome back Email or phone Password Show Forgot password?
+                Subject: Bill Gates ; Object: Gates Foundation ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Chair, Gates Foundation and Founder, Breakthrough Energy Seattle, Washington, United States Contact Info Sign in to view Bill’s full profile Sign in Welcome back Email or phone Password Show Forgot password?
+                Subject: Bill Gates ; Object: Breakthrough Energy ;
+                Duplicate. Ignoring this.
+
+        Processed 15 / 82 sentences
+        Processed 20 / 82 sentences
+        Processed 25 / 82 sentences
+        Processed 30 / 82 sentences
+        Processed 35 / 82 sentences
+        Processed 40 / 82 sentences
+        Processed 45 / 82 sentences
+        Processed 50 / 82 sentences
+        Processed 55 / 82 sentences
+
+                === Extracted Relation ===
+                Sentence:  Shared by Bill Gates Join now to see all activity Experience Co-chair Gates Foundation 2000 - Present 25 years Founder Breakthrough Energy 2015 - Present 10 years Co-founder Microsoft 1975 -
+                Subject: Bill Gates ; Object: Gates Foundation ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Shared by Bill Gates Join now to see all activity Experience Co-chair Gates Foundation 2000 - Present 25 years Founder Breakthrough Energy 2015 - Present 10 years Co-founder Microsoft 1975 -
+                Subject: Bill Gates ; Object: Breakthrough Energy ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Shared by Bill Gates Join now to see all activity Experience Co-chair Gates Foundation 2000 - Present 25 years Founder Breakthrough Energy 2015 - Present 10 years Co-founder Microsoft 1975 -
+                Subject: Bill Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 60 / 82 sentences
+        Processed 65 / 82 sentences
+
+                === Extracted Relation ===
+                Sentence:  In the years I have had the opportunity to see him work , I have never seen him turn away from… Liked by Bill Gates At Indian Council of Medical Research (ICMR), I saw how India’s homegrown innovations are saving lives.
+                Subject: Bill Gates ; Object: Indian Council of Medical Research (ICMR) ;
+                Adding to set of extracted relations
+
+        Processed 70 / 82 sentences
+        Processed 75 / 82 sentences
+
+                === Extracted Relation ===
+                Sentence:  Shared by Bill Gates Stepping away from Microsoft to focus on the Gates Foundation full-time was an exciting transition for me, but I was also worried about the company’s… Stepping away from Microsoft to focus on the Gates Foundation full-time was an exciting transition for me, but I was also worried about the company’s… Shared by Bill Gates
+                Subject: Bill Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 80 / 82 sentences
+
+
+        Extracted annotations for  5  out of total  82  sentences
+        Relations extracted from this website: 1 (Overall: 8)
+
+
+URL ( 8 / 10): https://news.microsoft.com/2006/06/15/microsoft-announces-plans-for-july-2008-transition-for-bill-gates/
+        Fetching text from url ...
+        Webpage length (num characters): 8182
+        Annotating the webpage using spacy...
+        Extracted 50 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+                === Extracted Relation ===
+                Sentence:  REDMOND, Wash. — June 15, 2006 — Microsoft Corp. today announced that effective July 2008 Bill Gates, chairman, will transition out of a day-to-day role in the company to spend more time on his global health and education work at the Bill & Melinda Gates Foundation.
+                Subject: Bill Gates ; Object: Microsoft Corp. ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  REDMOND, Wash. — June 15, 2006 — Microsoft Corp. today announced that effective July 2008 Bill Gates, chairman, will transition out of a day-to-day role in the company to spend more time on his global health and education work at the Bill & Melinda Gates Foundation.
+                Subject: Bill Gates ; Object: Bill & Melinda Gates Foundation ;
+                Adding to set of extracted relations
+
+        Processed 5 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  Similarly, Chief Technical Officer Craig Mundie will immediately take the new title of chief research and strategy officer and will work closely with Gates to assume his responsibility for the company’s research and incubation efforts; Mundie also will partner with general counsel Brad Smith to guide Microsoft’s intellectual property and technology policy efforts.
+                Subject: Craig Mundie ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Similarly, Chief Technical Officer Craig Mundie will immediately take the new title of chief research and strategy officer and will work closely with Gates to assume his responsibility for the company’s research and incubation efforts; Mundie also will partner with general counsel Brad Smith to guide Microsoft’s intellectual property and technology policy efforts.
+                Subject: Brad Smith ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 10 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  “I remain fully committed and full time at Microsoft through June 2008 and will be working side by side with Ray and Craig to ensure that a smooth transition occurs.”
+                Subject: Ray ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  “I remain fully committed and full time at Microsoft through June 2008 and will be working side by side with Ray and Craig to ensure that a smooth transition occurs.”
+                Subject: Craig ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  June 15, 2006, Redmond, Wash: (L-R) Microsoft Chairman Bill Gates, Chief Research and Strategy Officer Craig Mundie, Chief Software Architect Ray Ozzie and CEO Steve Ballmer gather prior to a news conference announcing plans for Gates to transition out of a day-to-day role in Microsoft over the next two years while Ozzie and Mundie assume increased roles in the company.
+                Subject: Bill Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  June 15, 2006, Redmond, Wash: (L-R) Microsoft Chairman Bill Gates, Chief Research and Strategy Officer Craig Mundie, Chief Software Architect Ray Ozzie and CEO Steve Ballmer gather prior to a news conference announcing plans for Gates to transition out of a day-to-day role in Microsoft over the next two years while Ozzie and Mundie assume increased roles in the company.
+                Subject: Craig Mundie ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  June 15, 2006, Redmond, Wash: (L-R) Microsoft Chairman Bill Gates, Chief Research and Strategy Officer Craig Mundie, Chief Software Architect Ray Ozzie and CEO Steve Ballmer gather prior to a news conference announcing plans for Gates to transition out of a day-to-day role in Microsoft over the next two years while Ozzie and Mundie assume increased roles in the company.
+                Subject: Ray Ozzie ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  June 15, 2006, Redmond, Wash: (L-R) Microsoft Chairman Bill Gates, Chief Research and Strategy Officer Craig Mundie, Chief Software Architect Ray Ozzie and CEO Steve Ballmer gather prior to a news conference announcing plans for Gates to transition out of a day-to-day role in Microsoft over the next two years while Ozzie and Mundie assume increased roles in the company.
+                Subject: Steve Ballmer ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 15 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  In September 2005 Microsoft Chief Executive Officer Steve Ballmer organized the company into three divisions under presidents Jim Allchin, Kevin Johnson, Robbie Bach and Jeff Raikes, who were given much greater responsibility for product development and strategy decisions within their respective businesses.
+                Subject: Jim Allchin ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  In September 2005 Microsoft Chief Executive Officer Steve Ballmer organized the company into three divisions under presidents Jim Allchin, Kevin Johnson, Robbie Bach and Jeff Raikes, who were given much greater responsibility for product development and strategy decisions within their respective businesses.
+                Subject: Kevin Johnson ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  In September 2005 Microsoft Chief Executive Officer Steve Ballmer organized the company into three divisions under presidents Jim Allchin, Kevin Johnson, Robbie Bach and Jeff Raikes, who were given much greater responsibility for product development and strategy decisions within their respective businesses.
+                Subject: Robbie Bach ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  In September 2005 Microsoft Chief Executive Officer Steve Ballmer organized the company into three divisions under presidents Jim Allchin, Kevin Johnson, Robbie Bach and Jeff Raikes, who were given much greater responsibility for product development and strategy decisions within their respective businesses.
+                Subject: Jeff Raikes ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+        Processed 20 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  A two-year transition will ensure that the company has a smooth transfer of strategy and knowledge from Bill to the next generation of leaders,” said James I. Cash, Ph.D., member of the Microsoft board of directors and former James E. Robison Professor, Harvard Business School.
+                Subject: James I. Cash ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  A two-year transition will ensure that the company has a smooth transfer of strategy and knowledge from Bill to the next generation of leaders,” said James I. Cash, Ph.D., member of the Microsoft board of directors and former James E. Robison Professor, Harvard Business School.
+                Subject: James I. Cash ; Object: Harvard Business School ;
+                Adding to set of extracted relations
+
+        Processed 25 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  Mundie, 56, joined Microsoft in 1992 to create and run the Consumer Platforms Division, which was responsible for developing non-PC platform and service offerings including the Microsoft® Windows® CE operating system; software for handheld PCs, Pocket PCs and Auto PCs; and early telephony products.
+                Subject: Mundie ; Object: Microsoft ;
+                Adding to set of extracted relations
+
+
+                === Extracted Relation ===
+                Sentence:  Mundie also started Microsoft’s digital TV efforts and acquired and managed the WebTV Networks Inc. subsidiary.
+                Subject: Mundie ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 30 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  Mundie is also the original champion of the Trustworthy Computing Initiative at Microsoft, which has influenced Microsoft’s software development strategy.
+                Subject: Mundie ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Gates, 50, started Microsoft in 1975 with childhood friend Paul Allen.
+                Subject: Bill Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  Gates, 50, started Microsoft in 1975 with childhood friend Paul Allen.
+                Subject: Paul Allen ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 35 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  He took Microsoft public in 1986 and was the company’s chairman and CEO until 2000, when Ballmer took over as CEO.
+                Subject: Bill Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  He took Microsoft public in 1986 and was the company’s chairman and CEO until 2000, when Ballmer took over as CEO.
+                Subject: Ballmer ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+
+                === Extracted Relation ===
+                Sentence:  For the past six years Gates has focused on Microsoft’s software development as the company’s chairman and chief software architect.
+                Subject: Gates ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 40 / 50 sentences
+        Processed 45 / 50 sentences
+
+                === Extracted Relation ===
+                Sentence:  quarterly dividend Microsoft Dragon Copilot provides the healthcare industry’s first unified voice AI assistant that enables clinicians to streamline clinical documentation, surface information and automate tasks Anduril and Microsoft partner to advance Integrated Visual Augmentation System (IVAS) program for the U.S. Army Governor Murphy and Princeton University President Eisgruber announce Microsoft and CoreWeave as founding partners in NJ AI Hub Follow us: Facebook X Threads Check us out on RSS Share this page:
+                Subject: Anduril ; Object: Microsoft ;
+                Duplicate. Ignoring this.
+
+        Processed 50 / 50 sentences
+
+
+        Extracted annotations for  13  out of total  50  sentences
+        Relations extracted from this website: 13 (Overall: 25)
+
+
+URL ( 9 / 10): https://www.microsoft.com/
+        Fetching text from url ...
+HTTPSConnectionPool(host='www.microsoft.com', port=443): Read timed out. (read timeout=10)
+Unable to fetch URL. Continuing.
+URL ( 10 / 10): https://answers.microsoft.com/en-us/windows/forum/all/a-short-letter-to-bill-gates/59fdd4d0-6330-40da-9e66-fa6c29836454
+        Fetching text from url ...
+        Webpage length (num characters): 11
+        Annotating the webpage using spacy...
+        Extracted 1 sentences. Processing each sentence one by one to check for presence of right pair of named entity types; if so, will run the second pipeline ...
+
+
+        Extracted annotations for  0  out of total  1  sentences
+        Relations extracted from this website: 0 (Overall: 0)
+
+
+================== ALL RELATIONS for Work_For ( 48 ) =================
+Subject: Arne Sorenson          | Object: Marriott International Inc.
+Subject: Emma Walmsley          | Object: GlaxoSmithKline plc
+Subject: Bill Gates             | Object: Honeywell
+Subject: Ray            | Object: Microsoft
+Subject: Bill Gates             | Object: Indian Council of Medical Research (ICMR)
+Subject: Bill Gates             | Object: BEN
+Subject: Gates          | Object: Lakeside
+Subject: Bill Gates             | Object: Computer Center Corporation
+Subject: Bill Gates             | Object: Cascade Investment
+Subject: Ric Weiland            | Object: Computer Center Corporation
+Subject: Kevin Johnson          | Object: Microsoft
+Subject: James I. Cash          | Object: Microsoft
+Subject: Anduril                | Object: Microsoft
+Subject: Brad Smith             | Object: Microsoft
+Subject: John W. Stanton                | Object: Trilogy Equity Partners
+Subject: John W. Thompson               | Object: Microsoft
+Subject: Ray Ozzie              | Object: Microsoft
+Subject: Jim Allchin            | Object: Microsoft
+Subject: James I. Cash          | Object: Harvard Business School
+Subject: Satya Nadella          | Object: Microsoft
+Subject: Penny Pritzker         | Object: PSP Partners
+Subject: Gates          | Object: Microsoft
+Subject: Bill Gates             | Object: Bill & Melinda Gates Foundation
+Subject: Bill Gates             | Object: Breakthrough Energy
+Subject: Hugh Johnston          | Object: PepsiCo
+Subject: Steve Ballmer          | Object: Microsoft
+Subject: Bill Gates             | Object: Microsoft
+Subject: Craig Mundie           | Object: Microsoft
+Subject: Robbie Bach            | Object: Microsoft
+Subject: Kent Evans             | Object: Computer Center Corporation
+Subject: Jeff Raikes            | Object: Microsoft
+Subject: Teri L. List-Stoll             | Object: Gap, Inc.
+Subject: Reid Hoffman           | Object: Greylock Partners
+Subject: Paul Allen             | Object: Computer Center Corporation
+Subject: Bill Gates             | Object: Wikipedia
+Subject: Evans          | Object: Lakeside
+Subject: Bill Gates             | Object: TerraPower
+Subject: Ballmer                | Object: Microsoft
+Subject: Bill Gates             | Object: Microsoft Corp.
+Subject: Charles W. Scharf              | Object: Wells Fargo & Co.
+Subject: Bill Gates             | Object: Branded Entertainment Network
+Subject: Bill           | Object: Microsoft
+Subject: Mundie         | Object: Microsoft
+Subject: Bill Gates             | Object: Gates Ventures
+Subject: Craig          | Object: Microsoft
+Subject: Bill Gates             | Object: Gates Foundation
+Subject: Paul Allen             | Object: Microsoft
+Subject: Sandra E. Peterson             | Object: Clayton, Dubilier & Rice
+Total # of iterations = 1
