@@ -11,13 +11,13 @@ Kristine Pham (klp2157)
 - spanbert_process.py
 - requirements.txt
 - transcript_gemini.txt
-- transcript_spanbert.txt
+- transcript_spanBERT.txt
 - README.md
 
 ## To Run the Program:
 To install all packages needed to run the program, use this command:
 ```
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 To run the program, use this command:
