@@ -286,7 +286,7 @@ def main():
             print(f"================== ALL RELATIONS for {relation} ( {len(results)} ) =================")
             for res in results: # res = (subj, relation_type, obj)
                 print(f"Subject: {res[0]}\t\t| Object: {res[2]}")
-                if f"{res[0]} {res[2]}" not in processed_queries and :
+                if f"{res[0]} {res[2]}" not in processed_queries and f"{res[0]} {res[2]}".lower() != q.lower():
                     q = f"{res[0]} {res[2]}" # update q just in case
                     updated = True
         else:
