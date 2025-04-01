@@ -28,7 +28,22 @@ python3 main.py [-spanbert|-gemini] <google api key> <google engine id> <google 
 ## Project Design
 
 ### Code Structure
-
+1. The user inputs
+    - extraction method,
+    - relevant google api keys,
+    - google engine ID,
+    - a target relation,
+    - desired threshold,
+    - search query
+    - and a target minimum number of tuples to return.
+2. The query is sent to the Google Custom Search API. The ```process_query()``` function interacts with the API to retrieve the top 10 urls.
+3. For each url that has not been processed before,
+    - The function ```extract_plain_text()``` retrieves the plain text of the webpage
+    - The function ```nlp()``` applies spacy model to raw text (to split to sentences, tokenize, extract entities etc.)
+    - The function ```extract_relations()``` extracts unique target relations (and replaces duplicate with higher thresholds if spanBERT) and add them to results.
+4. A table of current results is printed.
+5. If we haven't reach the target minimum number of tuples to return, we will use a new tuple from results to query another round of urls.
+6. This process is repeated until the desired number of tuples is reached or there are no more new queries options from results.
 
 ### Externel Libraries
 1. **argparse** - used to defines required command line inputs (like API keys, relation type, threshold, etc.) and checks that certain inputs (such as the confidence threshold and the number of tuples) are within valid ranges.
