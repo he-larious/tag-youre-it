@@ -54,8 +54,11 @@ Next, the `extract_relations()` function is called. It will:
 3. Filter these candidate pairs to only include those that match the specified target relation requirement for the subject and object types. 
 4. If any valid candidate pairs are found, extract relations using one of two extraction methods: SpanBERT or Gemini.
 
-For SpanBERT:
+For SpanBERT, a function called `extract_relations_spanbert()` is called. It will:
 
+1. Run SpanBERT on the given list of candidate entity pairs to predict relations and their confidences
+2. For each relation prediction that matches the target relation, we will add it to the dictionary of results if 1) it is equal to or above the desired threshold and if 2) it has a higher threshold than its exact duplicated in the results. We will implicitly remove the duplicate that has the lower threshold.
+3. At the end, we sort the result dictionary so that it is in descending order.
 
 For Gemini, a function called `extract_relations_gemini()` is called. It will:
 
