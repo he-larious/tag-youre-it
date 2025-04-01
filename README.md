@@ -9,9 +9,18 @@ Kristine Pham (klp2157)
 - main.py
 - gemini.py
 - spanbert_process.py
+- requirements.txt
+- transcript_gemini.txt
+- transcript_spanbert.txt
 - README.md
 
 ## To Run the Program:
+To install all packages needed to run the program, use this command:
+```
+pip install -r requirements.txt
+```
+
+To run the program, use this command:
 ```
 python3 main.py [-spanbert|-gemini] <google api key> <google engine id> <google gemini api key> <r> <t> <q> <k>
 ```
@@ -59,3 +68,5 @@ For Gemini, a function called `extract_relations_gemini()` is called. It will:
 7. Add a short pause before returning to ensure that the extraction process does not overload the API.
 
 ## Google Custom Search Engine
+API Key - AIzaSyDoyk2WXtfi8eu5kYEKhEV4J8WlgPpBTfs <br>
+Engine ID - a6b6d898d001649c2

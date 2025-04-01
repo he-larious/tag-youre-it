@@ -59,7 +59,7 @@ def extract_relations_gemini(gemini_api_key, target_relation, sentence, results,
     Example Sentence: {relation_sentence}
             
     Now, given the following sentence, extract all instances of the '{relation}' relationship. 
-    Return your answer as a list of lists, where each inner array is formatted as ["Subject: {subj_type}", "{relation}", "Object: {obj_type}"].
+    Return your answer as a list of lists, where each inner array is formatted as ["{subj_type}", "{relation}", "{obj_type}"].
     If no relation is found, return an empty array [].
     Do not include any additional text or markdown formatting.
     Sentence: {sentence}
@@ -128,15 +128,6 @@ def parse_response_text(sentence, response_text, results, num_extracted_tuples, 
             for relation in parsed_relations:
                 # Ensure the relation is a list with exactly three items
                 if isinstance(relation, list) and len(relation) == 3:
-                    # A little tuple cleaning
-                    # Gemini sometimes returns the subj as 'Subject: PERSON' for example or the
-                    # obj as 'Object: SCHOOL' for example when it can't identify one of the relations
-                    # instead of just an empty list
-                    if relation[0] == f"Subject: {relation_requirements[target_relation]['subj']}":
-                        continue
-                    if relation[2] == f"Object: {relation_requirements[target_relation]['obj']}":
-                        continue
-
                     num_extracted_tuples += 1
 
                     print("\n\t\t=== Extracted Relation ===")
