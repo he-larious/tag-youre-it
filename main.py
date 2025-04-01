@@ -107,7 +107,7 @@ def extract_plain_text(url, max_length=10000):
         response.raise_for_status()
     except Exception as e:
         # print(f"Skipping URL {url} due to retrieval error: {e}")
-        print(e)
+        # print(e)
         return None
 
     # Parse the HTML file
